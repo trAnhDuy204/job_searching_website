@@ -7,35 +7,43 @@ import { BsFillBarChartLineFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 const Header = () =>{
     return (
-        <div className="header_top">
-            <div className="container">
-                <div className="row">
-                    <div className="col-6 header_top_left">
-                        <ul>
-                            <li>
-                                <BiSearchAlt /><Link to={""}>Tìm việc làm</Link>
-                            </li>
-                            <li>
-                                <BsVectorPen /><Link to={""}>Tạo CV</Link>
-                            </li>
-                            <li>
-                                <BsFillBarChartLineFill /><Link to={""}>Phân tích mức lương</Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col-6 header_top_right">
-                        <ul>
-                            <li>
-                                <BsPersonFill /><Link to="/dang-ky">Đăng ký</Link>
-                            </li>
-                            <li>
-                                <BsPersonFill /><Link to="/dang-nhap">Đăng nhập</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      <header className="bg-gray-900 text-white py-10 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row items-center justify-between text-sm text-gray-700">
+        
+          <div className="text-2xl font-bold text-teal-400 mb-3 md:mb-0">
+            <Link to="/">jobVerse</Link>
+          </div>
+
+          <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 font-medium">
+            <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+              <BiSearchAlt />
+              <Link to="">Tìm việc làm</Link>
+            </li>
+
+            <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+              <BsVectorPen />
+              <Link to="">Tạo CV</Link>
+            </li>
+
+            <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+              <BsFillBarChartLineFill />
+              <Link to="">Phân tích mức lương</Link>
+            </li>
+          </ul>
+
+          <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 font-medium mt-3 md:mt-0">
+            <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+              <BsPersonFill />
+              <Link to="/dang-ky">Đăng ký</Link>
+            </li>
+
+            <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+              <BsPersonFill />
+              <Link to="/dang-nhap">Đăng nhập</Link>
+            </li>
+          </ul>
         </div>
+      </header>
     );
 }
 

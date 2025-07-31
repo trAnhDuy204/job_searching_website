@@ -1,3 +1,6 @@
+@use "sass:map";
+@import "src/style/Pages/theme.scss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

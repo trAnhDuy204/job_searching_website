@@ -1,106 +1,13 @@
 @use "sass:map";
 @import "/src/style/Pages/theme.scss";
 
-.footer{
-    background-color: #f5f5f5;
-    padding-top: 50px;
-    .footer_about{
-        margin-bottom: 30px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-        .footer_about_logo{
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        h4{
-            margin-top: 15px;
-            margin-bottom: 15px;
-            color: black;
-            font-weight: bold;
-        }
-
-        ul li{
-            font-size: 16px;
-            color: map.get($theme-color,"normal-text");
-            line-height: 25px;
-            list-style: none;
-        }
-    }
-
-    .footer_info {
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-bottom: 30px;
-        h4{
-            margin-top: 82px;
-            margin-bottom: 15px;
-            color: black;
-            font-weight: bold;
-        }
-
-        ul li{
-            font-size: 16px;
-            color: map.get($theme-color,"normal-text");
-            line-height: 25px;
-            list-style: none;
-        }
-
-        a{
-            font-size: 16px;
-            display: inline-block;
-            color: map.get($theme-color,"normal-text" );
-            text-decoration: none;
-        }
-        a:hover{
-            text-decoration: underline;
-        }
-    }
-
-    .footer_connect{
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-bottom: 30px;
-        h4{
-            margin-top: 82px;
-            margin-bottom: 15px;
-            color: black;
-            font-weight: bold;
-        }
-
-        .footer_connect_social{
-            display: flex;
-            align-items: center;
-            column-gap: 10px;
-            a{
-            margin-right: 10px;
-            font-size: 27px;
-            display: inline-block;
-            color: map.get($theme-color,"normal-text" );
-            text-decoration: none;
-            }
-
-            div{
-                background-color: #f5f5f5;
-                :hover{
-                    background: map.get($theme-color,"main" );
-                    color: #f5f5f5;
-                    border-color: #f5f5f5;
-                }
-
-                svg{
-                    font-size: 20px;
-                    padding:10px;
-                    color: #404040;
-                    border: 1px solid #ededed;
-                    border-radius: 50%;
-                    transition: all,0.3;
-                    background: #ffff;
-                    cursor: pointer;
-                }
-            }
-        }
-    }
-
-
+.container_thong_tin{
+    margin-top: 50px;
+}
+.container_ket_noi{
+    margin-top: 50px;
 }
