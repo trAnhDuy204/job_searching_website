@@ -5,6 +5,7 @@ export const ROUTERS = {
         EMPLOYER_HOMEPAGE:"trang-nha-tuyen-dung",
         EMPLOYEE_PROFILE:"ho-so-ung-vien",
         EMPLOYER_PROFILE:"ho-so-nha-tuyen-dung",
+        EMPLOYEE_POSTJOBFORMPAGE:"dang-tin-tuyen-dung",
         REGISTER:"dang-ky",
         LOGIN:"dang-nhap",
     }

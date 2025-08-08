@@ -1,7 +1,10 @@
+import ProfileLayoutEmployer from "component/employerProfile/profileLayoutEmployer";
 import{ memo } from "react";
 
 const EmployerProfilePage = () =>{
-    return (<h1>EmployerProfilePage</h1>);
+    return (
+        <ProfileLayoutEmployer/>
+    );
 }
 
 export default memo(EmployerProfilePage);

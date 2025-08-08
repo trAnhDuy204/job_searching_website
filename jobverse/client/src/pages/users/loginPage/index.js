@@ -1,8 +1,7 @@
-import{ memo } from "react";
-import "./style.scss";
-import React, { useState } from 'react';
+import { memo, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './style.scss';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,36 +9,50 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  //lấy dữ liệu người dùng
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  //kiểm tra dữ liệu
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/login', form);
-      const user = res.data.user;
+      const res = await axios.post('http://localhost:5000/api/auths/login', form);
 
-      setSuccess(res.data.message);
-      localStorage.setItem('user', JSON.stringify(user)); // Lưu user vào localStorage
+      const { token, user, message } = res.data;
+
+      if (!user?.role) {
+        setError('Không xác định được quyền truy cập');
+        return;
+      }
+
+      // Lưu token và user vào localStorage theo role
+      const roleKey = `token_${user.role}`;
+      localStorage.setItem(roleKey, token);
+
+      const userKey = `user_${user.role}`;
+      localStorage.setItem(userKey, JSON.stringify(user));
+
+      setSuccess(message || 'Đăng nhập thành công');
 
       // Điều hướng theo vai trò
       setTimeout(() => {
-        if (user.role === 'ungvien') {
-          navigate('/trang-ung-vien');
-        } else if (user.role === 'nhatuyendung') {
-          navigate('/trang-nha-tuyen-dung');
-        } else if (user.role === 'admin') {
-          navigate('/trang-quan-ly');
-        } else {
-          navigate('/'); // fallback nếu không xác định được
+        switch (user.role) {
+          case 'ungvien':
+            navigate('/trang-ung-vien');
+            break;
+          case 'nhatuyendung':
+            navigate('/trang-nha-tuyen-dung');
+            break;
+          case 'admin':
+            navigate('/trang-quan-ly');
+            break;
+          default:
+            navigate('/');
         }
-      }, 2000);
+      }, 1000);
 
     } catch (err) {
       setError(err.response?.data?.message || 'Lỗi đăng nhập');
@@ -47,7 +60,7 @@ const LoginPage = () => {
   };
 
   return (
-     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-teal-200 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-teal-200 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-teal-700">Đăng nhập</h2>
         <form onSubmit={handleLogin} className="space-y-4">

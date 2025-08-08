@@ -19,8 +19,8 @@ const Footer = () =>{
             <li>jobVerse.vn - Công Ty Cổ Phần jobVerse</li>
             <li>Phòng 202, Tòa nhà DP-35, Dragon Parc 2, Nguyễn Hữu Thọ, Nhà Bè, TP.HCM</li>
             <li>Điện thoại: (082) 3069 390</li>
-            <li>Email ứng viên: tranhduydl@gmail.com</li>
-            <li>Email nhà tuyển dụng: anhduy99204@gmail.com</li>
+            <li>Email hỗ trợ ứng viên: tranhduydl@gmail.com</li>
+            <li>Email hỗ trợ nhà tuyển dụng: anhduy99204@gmail.com</li>
           </ul>
         </div>
 

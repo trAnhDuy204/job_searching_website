@@ -29,9 +29,9 @@ const RegisterPage = () => {
     setSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/register', form);
+      const res = await axios.post('http://localhost:5000/api/auths/register', form);
       setSuccess(res.data.message);
-      setTimeout(() => navigate('/dang-nhap'), 2000); // về trang chủ sau 2s
+      setTimeout(() => navigate('/dang-nhap'), 2000); // về trang đăng nhập sau 2s
     } catch (err) {
       setError(err.response?.data?.message || 'Đăng ký thất bại');
     }

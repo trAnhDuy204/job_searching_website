@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const pool = require("../config/db");
+require("dotenv").config();
 
 // Đăng ký
 router.post('/register', async (req, res) => {
@@ -54,7 +56,18 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Mật khẩu không đúng' });
     }
 
-    res.status(200).json({ message: 'Đăng nhập thành công', user: { id: user.id, username: user.username, role: user.role } });
+    //Tạo JWT
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+        role: user.role
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '3d' } // Token hết hạn sau 3 ngày
+    );
+
+    res.status(200).json({ message: 'Đăng nhập thành công',token, user: { id: user.id, username: user.username, role: user.role } });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'Lỗi server' });

@@ -1,6 +1,7 @@
 // HomeContent.jsx
 import React from 'react';
 import JobList from '../../../component/jobList';
+import "./style.scss";
 const jobCategories = [
   { title: 'IT – Công nghệ', count: 4700 },
   { title: 'Admin / Hành chính', count: 260 },
@@ -10,24 +11,6 @@ const jobCategories = [
 const latestJobs = [
   { title: 'Nhân Viên IT Helpdesk', company: 'Công ty X', location: 'TP.HCM', salary: '10‑20 triệu' },
   // thêm các tin khác...
-];
-
-const jobs = [
-  {
-    logo: '/images/tpc.png',
-    title: 'Nhân Viên CSKH/Call Center (Tiếng Nhật N2)',
-    company: 'CÔNG TY TNHH TƯ VẤN GIẢI PHÁP DOANH...',
-    salary: '22 - 23.2 triệu',
-    location: 'Hồ Chí Minh'
-  },
-  {
-    logo: '/images/tpc.png',
-    title: 'Nhân Viên CSKH/Call Center (Tiếng Nhật N2)',
-    company: 'CÔNG TY TNHH TƯ VẤN GIẢI PHÁP DOANH...',
-    salary: '22 - 23.2 triệu',
-    location: 'Hồ Chí Minh'
-  },
-  // ... thêm job khác
 ];
 
 export default function HomeContent() {
@@ -58,8 +41,11 @@ export default function HomeContent() {
             ))}
           </div>
         </section>
-
-        <JobList/>
+        <section>
+            <h2 className="text-2xl font-semibold mb-4">Danh sách tin tuyển dụng</h2>
+            <JobList/>
+        </section>
+        
 
         {/* Việc làm mới nhất */}
         <section>

@@ -10,6 +10,7 @@ import EmployeeHomePage from "pages/users/employee/employeeHomePage";
 import EmployerHomePage from "pages/users/employer/employerHomePage";
 import EmployeeLayout from "pages/users/theme/employeeLayout";
 import EmployerLayout from "pages/users/theme/employerLayout";
+import PostJobFormPage from "./pages/users/employer/postJobFormPage";
 
 const RouterCustom = ()=>{
     return (
@@ -30,6 +31,7 @@ const RouterCustom = ()=>{
             <Route element={<EmployerLayout />}>
                 <Route path={ROUTERS.USER.EMPLOYER_HOMEPAGE} element={<EmployerHomePage/>} />
                 <Route path={ROUTERS.USER.EMPLOYER_PROFILE} element={<EmployerProfilePage/>} />
+                <Route path={ROUTERS.USER.EMPLOYEE_POSTJOBFORMPAGE} element={<PostJobFormPage/>} />
             </Route>
             
             {/*Trang chủ*/}

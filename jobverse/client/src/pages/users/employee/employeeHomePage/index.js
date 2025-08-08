@@ -1,7 +1,11 @@
 import{ memo } from "react";
-
+import HomeContent from "./homeContent";
 const EmployeeHomePage = () =>{
-    return (<h1>EmployeeHomePage</h1>);
+    return (
+        <div className="bg-gray-100 min-h-screen">
+            <HomeContent />
+        </div>
+    );
 }
 
 export default memo(EmployeeHomePage);

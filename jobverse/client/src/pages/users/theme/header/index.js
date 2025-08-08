@@ -7,7 +7,7 @@ import { BsFillBarChartLineFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 const Header = () =>{
     return (
-      <header className="bg-gray-900 text-white py-10 shadow-md">
+      <header className=" bg-gray-900 text-white py-10 shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row items-center justify-between text-sm text-gray-700">
         
           <div className="text-2xl font-bold text-teal-400 mb-3 md:mb-0">

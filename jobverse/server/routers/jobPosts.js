@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
+const {verifyToken, verifyRole} = require('../middleware/authMiddleware');
 
 // Tạo tin tuyển dụng mới
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, verifyRole("nhatuyendung","admin"), async (req, res) => {
   const {
     title,
     salary,
@@ -11,11 +12,22 @@ router.post('/', async (req, res) => {
     category_id,
     location_id,
     job_type_id,
-    company_id,
     description
   } = req.body;
 
   try {
+    // Lấy company_id từ user_id đang đăng nhập
+    const companyResult = await pool.query(
+      `SELECT id FROM company_profiles WHERE user_id = $1`,
+      [req.user.id] // req.user.id lấy từ verifyToken
+    );
+
+    if (companyResult.rows.length === 0) {
+      return res.status(400).json({ message: 'Không tìm thấy hồ sơ công ty cho tài khoản này.' });
+    }
+
+    const company_id = companyResult.rows[0].id;
+
     const result = await pool.query(
       `INSERT INTO job_posts 
         (title, salary, deadline, category_id, location_id, job_type_id, company_id, description, status, created_at)
@@ -36,29 +48,36 @@ router.post('/', async (req, res) => {
 });
 
 
-// Hàm xử lý lấy danh sách jobs
+// lấy danh sách jobs để làm jobCard
 router.get('/', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 12;
   const offset = (page - 1) * limit;
 
   try {
-    const jobs = await pool.query(`
-        SELECT jp.id, jp.title, jp.salary, jp.deadline,
-            c.name AS category,
-            l.name AS location,
-            jt.name AS job_type,
-            cp.company_name AS company_name,
-            cp.logo_url AS logo
+    const jobs= await pool.query(
+      `
+        SELECT 
+          jp.id,
+          jp.title,
+          jp.salary,
+          jp.description,
+          jp.deadline,
+          cp.company_name,
+          cp.logo_url AS logo,
+          cat.name AS category,
+          loc.name AS location,
+          jt.name AS job_type
         FROM job_posts jp
-        LEFT JOIN categories c ON c.id = jp.category_id
-        LEFT JOIN job_locations l ON l.id = jp.location_id
-        LEFT JOIN job_types jt ON jt.id = jp.job_type_id
-        LEFT JOIN company_profiles cp ON cp.id = jp.company_id
+        JOIN company_profiles cp ON jp.company_id = cp.id
+        JOIN categories cat ON jp.category_id = cat.id
+        JOIN job_locations loc ON jp.location_id = loc.id
+        JOIN job_types jt ON jp.job_type_id = jt.id
         WHERE jp.status = 'hoạt động'
         ORDER BY jp.created_at DESC
         LIMIT $1 OFFSET $2
-    `, [limit, offset]);
+      `, 
+    [limit, offset]);
 
 
     const total = await pool.query(`SELECT COUNT(*) FROM job_posts WHERE status = $1`, ['hoạt động']);
