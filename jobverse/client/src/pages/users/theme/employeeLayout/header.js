@@ -1,12 +1,23 @@
 import { memo } from "react";
 import "./style.scss";
-import { BiSearchAlt } from "react-icons/bi";
+import { BiSearchAlt, BiSolidHome } from "react-icons/bi";
 import { BsVectorPen, BsFillBarChartLineFill, BsFillDoorOpenFill, BsFillPersonLinesFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import React from 'react';
+import NotificationBell from "../../../../component/notificationBell";
 
-const EmployeeHeader = () => {
+const EmployeeHeader = ({ user }) => {
   const navigate = useNavigate();
+
+  // Nếu user chưa truyền vào thì lấy từ localStorage
+  if (!user) {
+    try {
+      const stored = localStorage.getItem("user_ungvien");
+      user = stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      user = null;
+    }
+  }
 
   const handleLogout = () => {
     // Xóa token và user khỏi localStorage
@@ -27,20 +38,28 @@ const EmployeeHeader = () => {
 
         <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 font-medium">
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+            <BiSolidHome/>
+            <Link to="/trang-ung-vien">Trang chủ</Link>
+          </li>
+          <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BiSearchAlt />
-            <Link to="">Tìm việc làm</Link>
+            <Link to="/trang-tim-viec">Tìm việc làm</Link>
           </li>
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BsVectorPen />
-            <Link to="">Tạo CV</Link>
+            <Link to="trang-tao-cv">Tạo CV</Link>
           </li>
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BsFillBarChartLineFill />
-            <Link to="">Phân tích mức lương</Link>
+            <Link to="/trang-ung-vien">Phân tích mức lương</Link>
           </li>
         </ul>
 
         <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 font-medium mt-3 md:mt-0">
+          <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+            <NotificationBell userId={user.id} token={user.token} />
+          </li>
+          
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BsFillPersonLinesFill />
             <Link to="/ho-so-ung-vien">Tài khoản</Link>

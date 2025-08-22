@@ -1,9 +1,7 @@
 import{ memo } from "react";
 import "./style.scss";
-import { BsPersonFill } from "react-icons/bs";
-import { BiSearchAlt } from "react-icons/bi";
-import { BsVectorPen } from "react-icons/bs";
-import { BsFillBarChartLineFill } from "react-icons/bs";
+import { BsPersonFill, BsVectorPen,BsFillBarChartLineFill } from "react-icons/bs";
+import { BiSearchAlt, BiSolidHome  } from "react-icons/bi";
 import { Link } from "react-router-dom";
 const Header = () =>{
     return (
@@ -16,13 +14,18 @@ const Header = () =>{
 
           <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 font-medium">
             <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+              <BiSolidHome/>
+              <Link to="/">Trang chủ</Link>
+            </li>
+
+            <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
               <BiSearchAlt />
-              <Link to="">Tìm việc làm</Link>
+              <Link to="trang-chu-tim-viec">Tìm việc làm</Link>
             </li>
 
             <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
               <BsVectorPen />
-              <Link to="">Tạo CV</Link>
+              <Link to="trang-chu-tao-cv">Tạo CV</Link>
             </li>
 
             <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">

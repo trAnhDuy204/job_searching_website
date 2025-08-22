@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
-import {axiosCandidate} from "../../JWT/axiosClient";
+import {axiosRecruiter} from "../../JWT/axiosClient";
 
 const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
   const fileInputRef = useRef(null);
@@ -10,11 +10,13 @@ const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("logo", file); // tên field trùng với backend
+    formData.append("logo", file); 
 
     try {
-        const res = await axiosCandidate.post("/company/upload-logo", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+        const token = localStorage.getItem("token_nhatuyendung");
+        const res = await axiosRecruiter.post("/company/upload-logo", formData, {
+        headers: { "Content-Type": "multipart/form-data", 
+                    Authorization: `Bearer ${token}` }
         });
         // cập nhật logo_url vào form
         onChange("logo_url", res.data.logoUrl);
@@ -143,7 +145,7 @@ const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 mr-3"
+                      className="mr-2 px-4 py-2 bg-gray-200 text-back text-sm rounded-md hover:bg-gray-300"
                     >
                       Hủy
                     </button>

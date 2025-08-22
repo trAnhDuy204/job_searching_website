@@ -47,37 +47,44 @@ router.post('/', verifyToken, verifyRole("nhatuyendung","admin"), async (req, re
   }
 });
 
-
-// lấy danh sách jobs để làm jobCard
+//lấy danh sách tin tuyển dụng
 router.get('/', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 12;
   const offset = (page - 1) * limit;
+  const userId = req.user?.id || null;
 
   try {
     const jobs= await pool.query(
       `
         SELECT 
-          jp.id,
-          jp.title,
-          jp.salary,
-          jp.description,
-          jp.deadline,
-          cp.company_name,
-          cp.logo_url AS logo,
-          cat.name AS category,
-          loc.name AS location,
-          jt.name AS job_type
-        FROM job_posts jp
-        JOIN company_profiles cp ON jp.company_id = cp.id
-        JOIN categories cat ON jp.category_id = cat.id
-        JOIN job_locations loc ON jp.location_id = loc.id
-        JOIN job_types jt ON jp.job_type_id = jt.id
-        WHERE jp.status = 'hoạt động'
-        ORDER BY jp.created_at DESC
-        LIMIT $1 OFFSET $2
+        jp.id,
+        cp.user_id as post_id,
+        jp.title,
+        jp.salary,
+        jp.description,
+        jp.deadline,
+        jp.status,
+        cp.company_name,
+        cp.logo_url AS logo,
+        cat.name AS category,
+        loc.name AS location,
+        jt.name AS job_type,
+        CASE 
+          WHEN sj.user_id IS NOT NULL THEN true
+          ELSE false
+        END AS is_saved
+      FROM job_posts jp
+      JOIN company_profiles cp ON jp.company_id = cp.id
+      JOIN categories cat ON jp.category_id = cat.id
+      JOIN job_locations loc ON jp.location_id = loc.id
+      JOIN job_types jt ON jp.job_type_id = jt.id
+      LEFT JOIN saved_jobs sj ON sj.job_post_id = jp.id AND sj.user_id = $3
+      WHERE jp.status = 'hoạt động'
+      ORDER BY jp.created_at DESC
+      LIMIT $1 OFFSET $2
       `, 
-    [limit, offset]);
+    [limit, offset,userId]);
 
 
     const total = await pool.query(`SELECT COUNT(*) FROM job_posts WHERE status = $1`, ['hoạt động']);
@@ -93,5 +100,199 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy dữ liệu job.' });
   }
 });
+
+module.exports = router;
+
+
+// lấy danh sách tin tuyển dụng cho ứng viên
+router.get('/candidate',verifyToken, verifyRole("ungvien"), async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 12;
+  const offset = (page - 1) * limit;
+  const userId = req.user?.id || null;
+
+  try {
+    const jobs= await pool.query(
+      `
+        SELECT 
+        jp.id,
+        cp.user_id as post_id,
+        jp.title,
+        jp.salary,
+        jp.description,
+        jp.deadline,
+        cp.company_name,
+        cp.logo_url AS logo,
+        cat.name AS category,
+        loc.name AS location,
+        jt.name AS job_type,
+        CASE 
+          WHEN sj.user_id IS NOT NULL THEN true
+          ELSE false
+        END AS is_saved
+      FROM job_posts jp
+      JOIN company_profiles cp ON jp.company_id = cp.id
+      JOIN categories cat ON jp.category_id = cat.id
+      JOIN job_locations loc ON jp.location_id = loc.id
+      JOIN job_types jt ON jp.job_type_id = jt.id
+      LEFT JOIN saved_jobs sj ON sj.job_post_id = jp.id AND sj.user_id = $3
+      WHERE jp.status = 'hoạt động'
+      ORDER BY jp.created_at DESC
+      LIMIT $1 OFFSET $2
+      `, 
+    [limit, offset,userId]);
+
+
+    const total = await pool.query(`SELECT COUNT(*) FROM job_posts WHERE status = $1`, ['hoạt động']);
+
+    res.json({
+      jobs: jobs.rows,
+      total: parseInt(total.rows[0].count),
+      page,
+      totalPages: Math.ceil(total.rows[0].count / limit)
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Lỗi khi lấy dữ liệu job.' });
+  }
+});
+
+
+// tìm kiếm tin tuyển dụng
+router.get("/search", async (req, res) => { 
+  const userId = req.user?.id || null;
+
+  try {
+    const { category, location, job_type, keyword } = req.query;
+
+    let query = `
+      SELECT 
+        jp.id,
+        cp.user_id as post_id,
+        jp.title,
+        jp.salary,
+        jp.description,
+        jp.deadline,
+        jp.status,
+        cp.company_name,
+        cp.logo_url AS logo,
+        cat.name AS category,
+        loc.name AS location,
+        jt.name AS job_type,
+        CASE 
+          WHEN sj.user_id IS NOT NULL THEN true
+          ELSE false
+        END AS is_saved
+      FROM job_posts jp
+      JOIN company_profiles cp ON jp.company_id = cp.id
+      JOIN categories cat ON jp.category_id = cat.id
+      JOIN job_locations loc ON jp.location_id = loc.id
+      JOIN job_types jt ON jp.job_type_id = jt.id
+      LEFT JOIN saved_jobs sj ON sj.job_post_id = jp.id AND sj.user_id = $1
+      WHERE jp.status = 'hoạt động'
+    `;
+
+    const values = [userId];
+    let conditions = [];
+
+    if (category) {
+      values.push(category);
+      conditions.push(`jp.category_id = $${values.length}`);
+    }
+    if (location) {
+      values.push(location);
+      conditions.push(`jp.location_id = $${values.length}`);
+    }
+    if (job_type) {
+      values.push(job_type);
+      conditions.push(`jp.job_type_id = $${values.length}`);
+    }
+    if (keyword) {
+      values.push(`%${keyword}%`);
+      conditions.push(`(jp.title ILIKE $${values.length} OR jp.description ILIKE $${values.length})`);
+    }
+
+    if (conditions.length > 0) {
+      query += " AND " + conditions.join(" AND ");
+    }
+
+    query += " ORDER BY jp.created_at DESC";
+
+    const result = await pool.query(query, values);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Lỗi khi lấy danh sách job posts" });
+  }
+});
+
+// tìm kiếm tin tuyển dụng cho ứng viên
+router.get("/candidate/search",verifyToken, verifyRole("ungvien"), async (req, res) => { 
+  const userId = req.user?.id || null;
+
+  try {
+    const { category, location, job_type, keyword } = req.query;
+
+    let query = `
+      SELECT 
+        jp.id,
+        cp.user_id as post_id,
+        jp.title,
+        jp.salary,
+        jp.description,
+        jp.deadline,
+        jp.status,
+        cp.company_name,
+        cp.logo_url AS logo,
+        cat.name AS category,
+        loc.name AS location,
+        jt.name AS job_type,
+        CASE 
+          WHEN sj.user_id IS NOT NULL THEN true
+          ELSE false
+        END AS is_saved
+      FROM job_posts jp
+      JOIN company_profiles cp ON jp.company_id = cp.id
+      JOIN categories cat ON jp.category_id = cat.id
+      JOIN job_locations loc ON jp.location_id = loc.id
+      JOIN job_types jt ON jp.job_type_id = jt.id
+      LEFT JOIN saved_jobs sj ON sj.job_post_id = jp.id AND sj.user_id = $1
+      WHERE jp.status = 'hoạt động'
+    `;
+
+    const values = [userId];
+    let conditions = [];
+
+    if (category) {
+      values.push(category);
+      conditions.push(`jp.category_id = $${values.length}`);
+    }
+    if (location) {
+      values.push(location);
+      conditions.push(`jp.location_id = $${values.length}`);
+    }
+    if (job_type) {
+      values.push(job_type);
+      conditions.push(`jp.job_type_id = $${values.length}`);
+    }
+    if (keyword) {
+      values.push(`%${keyword}%`);
+      conditions.push(`(jp.title ILIKE $${values.length} OR jp.description ILIKE $${values.length})`);
+    }
+
+    if (conditions.length > 0) {
+      query += " AND " + conditions.join(" AND ");
+    }
+
+    query += " ORDER BY jp.created_at DESC";
+
+    const result = await pool.query(query, values);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Lỗi khi lấy danh sách job posts" });
+  }
+});
+
 
 module.exports = router;

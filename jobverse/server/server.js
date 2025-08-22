@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const path = require("path");
+const http = require("http");
+const { Server } = require("socket.io");
+const server = http.createServer(app);
 
 
 const authRoutes = require('./routers/auth');
@@ -12,10 +15,41 @@ const locationRoutes = require('./routers/locations');
 const jobTypeRoutes = require('./routers/jobTypes');
 const profileRoutes = require("./routers/profile");
 const companyRoutes = require("./routers/company");
+const manageJobPostsRoutes = require("./routers/manageJobPosts");
+const manageApplicationsRoutes = require("./routers/manageApplications");
+const applicationsRoutes = require("./routers/applications");
+const accountRoutes = require("./routers/manageAccounts");
+const savedJobsRoutes = require("./routers/saveJobs");
+const messagesRoutes = require("./routers/messages")
+const notificationsRoutes = require("./routers/notifications")
+
+const io = new Server(server, {
+  cors: {
+    origin: "*", // hoặc chỉ định domain React
+    methods: ["GET", "POST"]
+  }
+});
+// Lắng nghe khi client kết nối
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  // Gắn userId để gửi notification riêng cho từng user
+  socket.on("register", (userId) => {
+    socket.join(`user_${userId}`);
+    console.log(`User ${userId} joined room user_${userId}`);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
 
 
+// Cho phép emit từ router
+app.set("io", io);
 app.use(cors());
 app.use(express.json());
+
 
 // Router xử lý các API auth
 app.use('/api/auths', authRoutes);
@@ -31,12 +65,24 @@ app.use('/api', jobTypeRoutes);
 app.use("/api/profile", profileRoutes);
 //Routes xử lý các API company
 app.use("/api/company", companyRoutes);
+//Routes xử lý các API manageJobPosts
+app.use("/api/employer", manageJobPostsRoutes);
+//Routes xử lý các API manageApplications
+app.use("/api", manageApplicationsRoutes);
+//Routes xử lý các API applications
+app.use("/api/applications", applicationsRoutes);
+//Routes xử lý các API accounts
+app.use("/api/account", accountRoutes);
+//Routes xử lý các API saveJobs
+app.use("/api/saved-jobs", savedJobsRoutes);
+//Routes xử lý các API messages
+app.use('/api/messages', messagesRoutes);
+//Routes xử lý các API notifications
+app.use('/api/notifications', notificationsRoutes);
 
 
 //Routes xử lý các API uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Lắng nghe trên cổng 5000
-app.listen(5000, () => {
-  console.log('Server đang chạy tại http://localhost:5000');
-});
+server.listen(5000, () => console.log("Server chạy port 5000"));

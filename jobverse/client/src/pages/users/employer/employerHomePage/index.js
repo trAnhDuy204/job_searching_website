@@ -1,7 +1,10 @@
 import{ memo } from "react";
+import PostJobFormPage from "../postJobFormPage";
 
 const EmployerHomePage = () =>{
-    return (<h1>EmployerHomePage</h1>);
+    return (
+        <PostJobFormPage/>
+    );
 }
 
 export default memo(EmployerHomePage);

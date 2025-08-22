@@ -6,11 +6,15 @@ import EmployeeProfilePage from "pages/users/employee/employeeProfilePage";
 import EmployerProfilePage from "pages/users/employer/employerProflePage";
 import RegisterPage from "./pages/users/registerPage";
 import LoginPage from "./pages/users/loginPage";
-import EmployeeHomePage from "pages/users/employee/employeeHomePage";
-import EmployerHomePage from "pages/users/employer/employerHomePage";
-import EmployeeLayout from "pages/users/theme/employeeLayout";
-import EmployerLayout from "pages/users/theme/employerLayout";
+import EmployeeHomePage from "./pages/users/employee/employeeHomePage";
+import EmployerHomePage from "./pages/users/employer/employerHomePage";
+import EmployeeLayout from "./pages/users/theme/employeeLayout";
+import EmployerLayout from "./pages/users/theme/employerLayout";
 import PostJobFormPage from "./pages/users/employer/postJobFormPage";
+import EmployeeCreateCVPage from "./pages/users/employee/createCVPage";
+import JobSearchPage from "pages/users/employee/jobSearchPage";
+import HomeJobSearchPage from "./pages/users/homePage/jobSearchPage";
+import HomeCreateCVPage from "./pages/users/homePage/createCVPage";
 
 const RouterCustom = ()=>{
     return (
@@ -25,6 +29,8 @@ const RouterCustom = ()=>{
             <Route element={<EmployeeLayout />}>
                 <Route path={ROUTERS.USER.EMPLOYEE_HOMEPAGE} element={<EmployeeHomePage/>} />
                 <Route path={ROUTERS.USER.EMPLOYEE_PROFILE} element={<EmployeeProfilePage/>} />
+                <Route path={ROUTERS.USER.EMPLOYEE_CREATECVPAGE} element={<EmployeeCreateCVPage/>}/>
+                <Route path={ROUTERS.USER.EMPLOYEE_JOBSEARCH} element={<JobSearchPage/>}/>
             </Route>
 
             {/*Trang chủ nhà tuyển dụng*/}
@@ -37,6 +43,8 @@ const RouterCustom = ()=>{
             {/*Trang chủ*/}
             <Route element={<MasterLayout />}>
                 <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
+                <Route path={ROUTERS.USER.HOME_JOBSEARCH} element={<HomeJobSearchPage/>} />
+                <Route path={ROUTERS.USER.HOME_CREATECVPAGE} element={<HomeCreateCVPage />} />
             </Route>
 
         </Routes>

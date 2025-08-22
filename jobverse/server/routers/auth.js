@@ -5,9 +5,24 @@ const argon2 = require("argon2");
 const pool = require("../config/db");
 require("dotenv").config();
 
+//Kiểm tra email và mật khẩu có đúng yêu cầu không
+function isValidEmail(email) {
+  return typeof email === "string" && /\S+@\S+\.\S+/.test(email);
+}
+function isValidPassword(pw) {
+  return typeof pw === "string" && pw.length >= 8; // tối thiểu 8 ký tự (bạn có thể thay rule)
+}
+
 // Đăng ký
 router.post('/register', async (req, res) => {
   const { username, email, password, role } = req.body;
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: "Email không hợp lệ." });
+  }
+  if (!isValidPassword(password)) {
+    return res.status(400).json({ success: false, message: "Mật khẩu mới không hợp lệ (tối thiểu 8 ký tự)." });
+  }
 
   try {
     // Kiểm tra username/email trùng

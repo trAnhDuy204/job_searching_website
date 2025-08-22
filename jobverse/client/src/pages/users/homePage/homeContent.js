@@ -1,6 +1,7 @@
 // HomeContent.jsx
 import React from 'react';
 import JobList from '../../../component/jobList';
+import SearchBar from '../../../component/searchBar';
 import "./style.scss";
 const jobCategories = [
   { title: 'IT – Công nghệ', count: 4700 },
@@ -13,7 +14,7 @@ const latestJobs = [
   // thêm các tin khác...
 ];
 
-export default function HomeContent() {
+export default function HomeContent({ categories, locations, jobTypes }) {
   return (
     <main className="max-w-7xl mx-auto px-4 py-8 space-y-12">
         {/* Banner tìm việc */}
@@ -22,10 +23,8 @@ export default function HomeContent() {
             <h1 className="text-4xl font-bold mb-2">Tìm việc làm nhanh chóng</h1>
             <p className="text-lg">Cập nhật hàng ngàn việc làm mỗi ngày</p>
           </div>
-          <div>
-            <input type="text" placeholder="Bạn muốn làm gì...? "
-              className="px-4 py-2 rounded-l-lg focus:outline-none" />
-            <button className="bg-teal-400 text-white px-4 py-2 rounded-r-lg hover:bg-teal-500">Tìm việc</button>
+          <div className="max-w-5xl mx-auto mt-10">
+            <SearchBar/>
           </div>
         </section>
 
@@ -41,11 +40,11 @@ export default function HomeContent() {
             ))}
           </div>
         </section>
+
         <section>
             <h2 className="text-2xl font-semibold mb-4">Danh sách tin tuyển dụng</h2>
             <JobList/>
         </section>
-        
 
         {/* Việc làm mới nhất */}
         <section>
