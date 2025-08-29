@@ -4,7 +4,7 @@ const pool = require("../config/db");
 const {verifyToken, verifyRole} = require('../middleware/authMiddleware');
 
 // Lấy danh sách tin của công ty
-router.get("/jobs", verifyToken, verifyRole("nhatuyendung","admin"), async (req, res) => {
+router.get("/jobs", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id; // user_id từ token
 

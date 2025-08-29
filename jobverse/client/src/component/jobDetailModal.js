@@ -1,10 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import ApplyModal from "./applyModal";
 
 const JobDetailModal = ({ job, onClose }) => {
   const [showApplyModal, setShowApplyModal] = useState(false);
+  const navigate = useNavigate();
 
   if (!job) return null;
+
+  const handleGoCompany = () => {
+    navigate(`/xem-trang-cong-ty/${job.company_id}`);
+    onClose(); // đóng modal khi chuyển trang
+  };
 
   return (
     <>
@@ -19,12 +26,15 @@ const JobDetailModal = ({ job, onClose }) => {
           </button>
 
           {/* Thông tin công việc */}
-          <div className="flex items-center gap-3 mb-4">
+          <div 
+            className="flex items-center gap-3 mb-4 cursor-pointer"
+            onClick={handleGoCompany}
+          >
             <img
               src={
                 job.logo
                   ? `http://localhost:5000${job.logo}`
-                  : "/default-logo.png"
+                  : "http://localhost:5000/uploads/default/logo_company_default.jpg"
               }
               alt="Company Logo"
               className="w-12 h-12 object-contain"
@@ -34,6 +44,7 @@ const JobDetailModal = ({ job, onClose }) => {
               <p className="text-sm text-gray-600">{job.company_name}</p>
             </div>
           </div>
+
           <p><strong>Lương:</strong> {job.salary}</p>
           <p><strong>Địa điểm:</strong> {job.location}</p>
           <p><strong>Ngành nghề:</strong> {job.category}</p>

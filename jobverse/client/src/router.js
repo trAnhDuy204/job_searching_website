@@ -15,6 +15,9 @@ import EmployeeCreateCVPage from "./pages/users/employee/createCVPage";
 import JobSearchPage from "pages/users/employee/jobSearchPage";
 import HomeJobSearchPage from "./pages/users/homePage/jobSearchPage";
 import HomeCreateCVPage from "./pages/users/homePage/createCVPage";
+import CompanyPage from "./pages/users/employer/companyPage";
+import ReviewCompanyPage from "./pages/users/employee/reviewCompanyPage";
+import ProtectedRoute from "./utils/protectedRoute";
 
 const RouterCustom = ()=>{
     return (
@@ -26,18 +29,28 @@ const RouterCustom = ()=>{
             <Route path={ROUTERS.USER.LOGIN} element={<LoginPage/>} />
             
             {/*Trang chủ ứng viên*/}
-            <Route element={<EmployeeLayout />}>
+            <Route element={
+                <ProtectedRoute role="ungvien">
+                    <EmployeeLayout />
+                </ProtectedRoute>
+            }>
                 <Route path={ROUTERS.USER.EMPLOYEE_HOMEPAGE} element={<EmployeeHomePage/>} />
                 <Route path={ROUTERS.USER.EMPLOYEE_PROFILE} element={<EmployeeProfilePage/>} />
                 <Route path={ROUTERS.USER.EMPLOYEE_CREATECVPAGE} element={<EmployeeCreateCVPage/>}/>
                 <Route path={ROUTERS.USER.EMPLOYEE_JOBSEARCH} element={<JobSearchPage/>}/>
+                <Route path={ROUTERS.USER.EMPLOYEE_COMPANYPAGE} element={<ReviewCompanyPage/>}/>
             </Route>
 
             {/*Trang chủ nhà tuyển dụng*/}
-            <Route element={<EmployerLayout />}>
+            <Route element={
+                <ProtectedRoute role="nhatuyendung">
+                    <EmployerLayout />
+                </ProtectedRoute>
+            }>
                 <Route path={ROUTERS.USER.EMPLOYER_HOMEPAGE} element={<EmployerHomePage/>} />
                 <Route path={ROUTERS.USER.EMPLOYER_PROFILE} element={<EmployerProfilePage/>} />
-                <Route path={ROUTERS.USER.EMPLOYEE_POSTJOBFORMPAGE} element={<PostJobFormPage/>} />
+                <Route path={ROUTERS.USER.EMPLOYER_POSTJOBFORMPAGE} element={<PostJobFormPage/>} />
+                <Route path={ROUTERS.USER.EMPLOYER_COMPANYPAGE} element={<CompanyPage/>}/>
             </Route>
             
             {/*Trang chủ*/}

@@ -69,8 +69,10 @@ const JobManagement = () => {
                   <span
                     className={`px-3 py-1.5 rounded-full text-sm font-medium border whitespace-nowrap ${
                       job.status === "hoạt động"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                        ? "bg-green-100 text-green-700 border-green-300"
+                        : job.status ==="ẩn"
+                        ? "bg-gray-100 text-gray-700 border-gray-300"
+                        : "bg-red-100 text-red-700 border-red-300"
                     }`}
                   >
                     {job.status}
@@ -79,7 +81,7 @@ const JobManagement = () => {
                 <td className="px-4 py-3 flex items-center justify-center gap-2">
                   <button
                     onClick={() => setEditJobData(job)}
-                    className="px-3 py-1.5 text-sm bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
+                    className={`px-3 py-1.5 text-sm bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition`}
                   >
                     Sửa
                   </button>

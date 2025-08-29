@@ -20,14 +20,14 @@ export default function NotificationBell({ userId, token }) {
 
   const fetchNotifications = async () => {
     try {
-      if(localStorage.getItem("token_ungvien")){
-        const res = await axiosCandidate.get(`/notifications/${userId}`, {
+      if(token !== localStorage.getItem("token_ungvien")){
+        const res = await axiosRecruiter.get(`/notifications/${userId}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(res.data);
       }
       else{
-        const res = await axiosRecruiter.get(`/notifications/${userId}`, {
+         const res = await axiosCandidate.get(`/notifications/${userId}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(res.data);
@@ -40,24 +40,24 @@ export default function NotificationBell({ userId, token }) {
   const handleClickNotification = async (noti) => {
     try {
       // đánh dấu đã đọc
-      if(localStorage.getItem("token_ungvien")){
-        await axiosCandidate.put(`/notifications/${noti.id}/read`, {}, {
+      if(token !== localStorage.getItem("token_ungvien")){
+        await axiosRecruiter.put(`/notifications/${noti.id}/read`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
-
         // lấy chi tiết message
-        const msgRes = await axiosCandidate.get(`/messages/${noti.message_id}`, {
+        const msgRes = await axiosRecruiter.get(`/messages/${noti.message_id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setSelectedMessage(msgRes.data);
       }
       else{
         // đánh dấu đã đọc
-        await axiosRecruiter.put(`/notifications/${noti.id}/read`, {}, {
+        await axiosCandidate.put(`/notifications/${noti.id}/read`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
+
         // lấy chi tiết message
-        const msgRes = await axiosRecruiter.get(`/messages/${noti.message_id}`, {
+        const msgRes = await axiosCandidate.get(`/messages/${noti.message_id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setSelectedMessage(msgRes.data);
@@ -73,12 +73,12 @@ export default function NotificationBell({ userId, token }) {
   // API xoá thông báo
   const handleDeleteNotification = async (id) => {
     try {
-      if (localStorage.getItem("token_ungvien")) {
-        await axiosCandidate.delete(`/notifications/${id}`, {
+      if (!localStorage.getItem("token_ungvien")) {
+       await axiosRecruiter.delete(`/notifications/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       } else {
-        await axiosRecruiter.delete(`/notifications/${id}`, {
+         await axiosCandidate.delete(`/notifications/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
@@ -103,7 +103,7 @@ export default function NotificationBell({ userId, token }) {
     };
   }, [userId]);
 
-  const unreadCount = notifications.filter((n) => !n.is_read).length;
+  const unreadCount = notifications.filter(n => n && !n.is_read).length;
 
   return (
     <div className="relative">
@@ -132,7 +132,7 @@ export default function NotificationBell({ userId, token }) {
             {notifications.length === 0 ? (
               <div className="p-4 text-gray-500 text-sm">Không có thông báo</div>
             ) : (
-              notifications.map((n) => (
+              notifications.filter(n => n).map((n) => (
                 <div
                   key={n.id}
                   className={`flex justify-between items-start p-3 border-b ${
@@ -169,11 +169,11 @@ export default function NotificationBell({ userId, token }) {
       {selectedMessage && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
           <div className="bg-white p-6 rounded-xl w-[500px]">
-            <h2 className="text-lg font-semibold mb-2">{selectedMessage.subject}</h2>
+            <h2 className="text-lg text-teal-500 font-semibold mb-2">{selectedMessage.subject}</h2>
             <p className="text-gray-700 mb-4">{selectedMessage.content}</p>
             <button
               onClick={() => setSelectedMessage(null)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+              className="px-4 py-2 bg-teal-500 text-white rounded-lg"
             >
               Đóng
             </button>

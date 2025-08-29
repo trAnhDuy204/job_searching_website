@@ -29,7 +29,7 @@ const SavedJobsList = () => {
       });
       if (!res.data.saved) {
         setSavedJobs((prev) => prev.filter((job) => job.id !== jobId));
-        // Nếu đang mở modal của job bị bỏ lưu → đóng modal
+        // Nếu đang mở modal của job bị bỏ lưu thì đóng modal
         if (selectedJob?.id === jobId) {
           setSelectedJob(null);
         }
@@ -84,6 +84,8 @@ const SavedJobsList = () => {
                       className={`px-3 py-1.5 rounded-full text-sm font-medium border whitespace-nowrap ${
                         job.status === "hoạt động"
                           ? "bg-green-100 text-green-700 border-green-300"
+                          : job.status === "ẩn"
+                          ? "bg-gray-100 text-gray-700 border-gray-300"
                           : "bg-red-100 text-red-700 border-red-300"
                       }`}
                     >
@@ -93,12 +95,16 @@ const SavedJobsList = () => {
                   <td className="px-4 py-3 flex items-center justify-center gap-2 whitespace-nowrap">
                     <button
                       onClick={() => handleViewDetail(job.id)}
-                      className="px-3 py-1.5 text-sm bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
+                      className={`px-3 py-1.5 text-sm bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition ${
+                        job.status !== "hoạt động"
+                          ? "hidden"
+                          : ""
+                      }`}
                     >
                       Xem
                     </button>
                     <button
-                      className="px-3 py-1.5 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                      className= "px-3 py-1.5 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                       onClick={() => handleToggleSave(job.id)}
                     >
                       Bỏ lưu

@@ -6,8 +6,8 @@ const router = express.Router();
 const pool = require("../config/db");
 const {verifyToken , verifyRole} = require("../middleware/authMiddleware");
 
-// Lấy thông tin công ty
-router.get("/me", verifyToken, async (req, res) => {
+// Lấy thông tin công ty để tạo hồ sơ
+router.get("/me",verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -35,6 +35,46 @@ router.get("/me", verifyToken, async (req, res) => {
   } catch (err) {
     console.error("GET /company/me error:", err);
     res.status(500).json({ message: "Lỗi server." });
+  }
+});
+
+// Lấy danh sách công ty
+router.get("/list", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT id as company_id, company_name, logo_url FROM company_profiles ORDER BY id ASC"
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Lỗi lấy danh sách công ty:", err);
+    res.status(500).json({ error: "Lỗi server" });
+  }
+});
+
+// Lấy thông tin công ty để tạo trang
+router.get("/:company_id", async (req, res) => {
+  try {
+    const { company_id } = req.params;
+
+    if (!company_id || isNaN(company_id)) {
+      return res.status(400).json({ error: "company_id không hợp lệ" });
+    }
+
+    const result = await pool.query(
+      `SELECT id, company_name, description, company_size, industry, address, website, logo_url, created_at
+       FROM company_profiles 
+       WHERE id = $1`,
+      [company_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Không tìm thấy công ty" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Lỗi lấy thông tin công ty:", err);
+    res.status(500).json({ error: "Lỗi server" });
   }
 });
 

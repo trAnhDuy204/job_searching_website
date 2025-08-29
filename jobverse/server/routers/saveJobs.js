@@ -66,6 +66,7 @@ router.get("/list", verifyToken, verifyRole("ungvien"), async (req, res) => {
       `
       SELECT 
             jp.id,
+            cp.id as company_id,
             jp.title,
             jp.salary,
             jp.description,

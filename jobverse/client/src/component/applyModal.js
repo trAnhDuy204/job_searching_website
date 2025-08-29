@@ -66,8 +66,9 @@ export default function ApplyModal({ job, onClose}) {
           },
         }
       );
-
-      const messageId = resMessage.data?.message_id;
+      
+      //lấy id tin nhắn để tạo thông báo
+      const messageId = resMessage.data?.id;
 
       // Sau khi gửi message thì tạo notification cho nhà tuyển dụng
       await axiosCandidate.post(

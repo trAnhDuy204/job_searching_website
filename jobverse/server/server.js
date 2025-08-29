@@ -6,6 +6,8 @@ const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
 const server = http.createServer(app);
+const cron = require("node-cron");
+const pool = require("./config/db");
 
 
 const authRoutes = require('./routers/auth');
@@ -23,6 +25,7 @@ const savedJobsRoutes = require("./routers/saveJobs");
 const messagesRoutes = require("./routers/messages")
 const notificationsRoutes = require("./routers/notifications")
 
+//tạo server realtime
 const io = new Server(server, {
   cors: {
     origin: "*", // hoặc chỉ định domain React
@@ -83,6 +86,20 @@ app.use('/api/notifications', notificationsRoutes);
 
 //Routes xử lý các API uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Cron job chạy mỗi ngày lúc 00:00
+cron.schedule("0 0 * * *", async () => {
+  try {
+    const result = await pool.query(
+      `UPDATE job_posts 
+       SET status = 'hết hạn'
+       WHERE deadline < NOW() AND status != 'hết hạn'`
+    );
+    console.log(`Cron job: ${result.rowCount} job_posts đã được chuyển sang 'hết hạn'`);
+  } catch (err) {
+    console.error("Lỗi khi cập nhật job_posts hết hạn:", err);
+  }
+});
 
 // Lắng nghe trên cổng 5000
 server.listen(5000, () => console.log("Server chạy port 5000"));

@@ -2,15 +2,11 @@
 import React from 'react';
 import EmployeeJobList from '../../../../component/employeeProfile/employeeJobList';
 import SearchBar from '../../../../component/searchBar';
+import CompanyList from 'component/compantList';
 const jobCategories = [
   { title: 'IT – Công nghệ', count: 4700 },
   { title: 'Admin / Hành chính', count: 260 },
   { title: 'Autocad / Thiết kế', count: 1000 },
-];
-
-const latestJobs = [
-  { title: 'Nhân Viên IT Helpdesk', company: 'Công ty X', location: 'TP.HCM', salary: '10‑20 triệu' },
-  // thêm các tin khác...
 ];
 
 export default function HomeContent() {
@@ -47,18 +43,8 @@ export default function HomeContent() {
 
         {/* Việc làm mới nhất */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Việc làm mới nhất</h2>
-          <div className="space-y-4">
-            {latestJobs.map((job,i) => (
-              <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white p-4 rounded-lg shadow">
-                <div>
-                  <h3 className="text-lg font-medium">{job.title}</h3>
-                  <p className="text-sm text-gray-600">{job.company} • {job.location}</p>
-                </div>
-                <span className="text-teal-600 font-semibold">{job.salary}</span>
-              </div>
-            ))}
-          </div>
+          <h2 className="text-2xl font-semibold mb-4">Danh sách công ty</h2>
+          <CompanyList/>
         </section>
     </main>
   );

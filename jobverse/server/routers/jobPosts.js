@@ -60,6 +60,7 @@ router.get('/', async (req, res) => {
         SELECT 
         jp.id,
         cp.user_id as post_id,
+        cp.id as company_id,
         jp.title,
         jp.salary,
         jp.description,
@@ -117,6 +118,7 @@ router.get('/candidate',verifyToken, verifyRole("ungvien"), async (req, res) => 
         SELECT 
         jp.id,
         cp.user_id as post_id,
+        cp.id as company_id,
         jp.title,
         jp.salary,
         jp.description,
@@ -169,6 +171,7 @@ router.get("/search", async (req, res) => {
       SELECT 
         jp.id,
         cp.user_id as post_id,
+        cp.id as company_id,
         jp.title,
         jp.salary,
         jp.description,
@@ -229,7 +232,6 @@ router.get("/search", async (req, res) => {
 // tìm kiếm tin tuyển dụng cho ứng viên
 router.get("/candidate/search",verifyToken, verifyRole("ungvien"), async (req, res) => { 
   const userId = req.user?.id || null;
-
   try {
     const { category, location, job_type, keyword } = req.query;
 
@@ -237,6 +239,7 @@ router.get("/candidate/search",verifyToken, verifyRole("ungvien"), async (req, r
       SELECT 
         jp.id,
         cp.user_id as post_id,
+        cp.id as company_id,
         jp.title,
         jp.salary,
         jp.description,
@@ -294,5 +297,43 @@ router.get("/candidate/search",verifyToken, verifyRole("ungvien"), async (req, r
   }
 });
 
+// Lấy danh sách tin tuyển dụng của công ty
+router.get("/:company_id/jobs",verifyToken, async (req, res) => {
+  const userId = req.user?.id || null;
+  try {
+    const { company_id } = req.params;
+
+    if (!company_id || isNaN(company_id)) {
+      return res.status(400).json({ error: "company_id không hợp lệ" });
+    }
+
+    const result = await pool.query(
+      `SELECT 
+            j.*,
+            cp.logo_url, 
+            c.name AS category, 
+            l.name AS location, 
+            t.name AS job_type,
+            CASE 
+             WHEN sj.user_id IS NOT NULL THEN true
+              ELSE false
+            END AS is_saved
+       FROM job_posts j
+       LEFT JOIN company_profiles cp ON j.company_id = cp.id
+       LEFT JOIN categories c ON j.category_id = c.id
+       LEFT JOIN job_locations l ON j.location_id = l.id
+       LEFT JOIN job_types t ON j.job_type_id = t.id
+       LEFT JOIN saved_jobs sj ON sj.job_post_id = j.id AND sj.user_id = $1
+       WHERE j.company_id = $2 AND j.status = 'hoạt động'
+       ORDER BY j.created_at DESC`,
+      [userId, company_id]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Lỗi lấy tin tuyển dụng của công ty:", err);
+    res.status(500).json({ error: "Lỗi server" });
+  }
+});
 
 module.exports = router;

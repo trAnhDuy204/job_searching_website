@@ -69,7 +69,8 @@ export default function ApplicationManagement() {
           },
         }
       );
-
+      
+      //lấy id tin nhắn để tạo thông báo
       const messageId = resMessage.data?.id;
 
       // Tạo thông báo

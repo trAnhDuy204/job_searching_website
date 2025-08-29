@@ -1,6 +1,8 @@
 import { memo } from "react";
+import { useEffect, useState } from "react";
+import {axiosRecruiter} from "../../../../JWT/axiosClient";
 import "./style.scss";
-import { BiSearchAlt, BiSolidHome } from "react-icons/bi";
+import { BiSolidHome } from "react-icons/bi";
 import { BsVectorPen, BsFillBarChartLineFill, BsFillDoorOpenFill, BsFillPersonLinesFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import React from 'react';
@@ -28,6 +30,22 @@ const EmployeeHeader = ({user}) => {
     // Điều hướng về trang chủ
     navigate("/");
   };
+
+  const [company, setCompany] = useState(null);
+  console.log(company);
+  useEffect(() => {
+    const fetchCompanyProfile = async () => {
+      try {
+          const res = await axiosRecruiter.get("/company/me");
+          setCompany(res.data);
+        } catch (err) {
+          console.error("Lỗi khi lấy hồ sơ công ty:", err);
+        }
+    };
+    fetchCompanyProfile();
+  }, []);
+  
+  if (!company) return <div>Đang tải hồ sơ công ty...</div>;
   
   return (
     <header className="bg-gray-900 text-white py-10 shadow-md">
@@ -42,17 +60,17 @@ const EmployeeHeader = ({user}) => {
             <BiSolidHome/>
             <Link to="/trang-nha-tuyen-dung">Trang chủ</Link>
           </li>
-          <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
+          {/* <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BiSearchAlt />
             <Link to="/trang-nha-tuyen-dung">Tìm ứng viên</Link>
-          </li>
+          </li> */}
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BsVectorPen />
             <Link to="/dang-tin-tuyen-dung">Đăng tin tuyển dụng</Link>
           </li>
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BsFillBarChartLineFill />
-            <Link to="/trang-nha-tuyen-dung">Xem trang công ty</Link>
+            <Link to={`/trang-cong-ty/${company.id}`}>Xem trang công ty</Link>
           </li>
         </ul>
 
