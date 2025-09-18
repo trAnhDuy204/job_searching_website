@@ -221,7 +221,7 @@ export default function ReviewCompanyLayout({companyId}) {
           ) : filteredJobs.length === 0 ? (
             <div className="text-gray-600 mt-4">Không có tin phù hợp.</div>
           ) : (
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 cursor-pointer">
               {filteredJobs.map((job) => (
                 <JobCard 
                 key={job.id || job.post_id} 

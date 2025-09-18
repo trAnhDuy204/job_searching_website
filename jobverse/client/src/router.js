@@ -2,6 +2,7 @@ import { ROUTERS } from "./utils/router";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/users/homePage";
 import MasterLayout from "./pages/users/theme/masterLayout";
+import AdminLayout from "./pages/users/theme/adminLayout";
 import EmployeeProfilePage from "pages/users/employee/employeeProfilePage";
 import EmployerProfilePage from "pages/users/employer/employerProflePage";
 import RegisterPage from "./pages/users/registerPage";
@@ -18,6 +19,7 @@ import HomeCreateCVPage from "./pages/users/homePage/createCVPage";
 import CompanyPage from "./pages/users/employer/companyPage";
 import ReviewCompanyPage from "./pages/users/employee/reviewCompanyPage";
 import ProtectedRoute from "./utils/protectedRoute";
+import AdminHomePage from "./pages/admin/homePage";
 
 const RouterCustom = ()=>{
     return (
@@ -27,6 +29,15 @@ const RouterCustom = ()=>{
 
             {/*Trang đăng nhập */}
             <Route path={ROUTERS.USER.LOGIN} element={<LoginPage/>} />
+
+            {/*Trang quan trị viên*/}
+            <Route element={
+                <ProtectedRoute role="admin">
+                    <AdminLayout />
+                </ProtectedRoute>
+            }>
+                <Route path={ROUTERS.USER.ADMIN_HOMEPAGE} element={<AdminHomePage/>} />
+            </Route>
             
             {/*Trang chủ ứng viên*/}
             <Route element={
@@ -59,7 +70,6 @@ const RouterCustom = ()=>{
                 <Route path={ROUTERS.USER.HOME_JOBSEARCH} element={<HomeJobSearchPage/>} />
                 <Route path={ROUTERS.USER.HOME_CREATECVPAGE} element={<HomeCreateCVPage />} />
             </Route>
-
         </Routes>
     );
 };

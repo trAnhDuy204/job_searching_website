@@ -22,8 +22,9 @@ const manageApplicationsRoutes = require("./routers/manageApplications");
 const applicationsRoutes = require("./routers/applications");
 const accountRoutes = require("./routers/manageAccounts");
 const savedJobsRoutes = require("./routers/saveJobs");
-const messagesRoutes = require("./routers/messages")
-const notificationsRoutes = require("./routers/notifications")
+const messagesRoutes = require("./routers/messages");
+const notificationsRoutes = require("./routers/notifications");
+const adminRouters = require("./routers/admin");
 
 //tạo server realtime
 const io = new Server(server, {
@@ -82,6 +83,8 @@ app.use("/api/saved-jobs", savedJobsRoutes);
 app.use('/api/messages', messagesRoutes);
 //Routes xử lý các API notifications
 app.use('/api/notifications', notificationsRoutes);
+//Routes xử lý các API admin
+app.use('/api/admin', adminRouters);
 
 
 //Routes xử lý các API uploads

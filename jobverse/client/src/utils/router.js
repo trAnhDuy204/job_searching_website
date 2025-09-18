@@ -19,5 +19,8 @@ export const ROUTERS = {
         EMPLOYER_PROFILE:"ho-so-nha-tuyen-dung",
         EMPLOYER_COMPANYPAGE:"trang-cong-ty/:id",
         EMPLOYER_POSTJOBFORMPAGE:"dang-tin-tuyen-dung",
+
+        //quan tri vien
+        ADMIN_HOMEPAGE:"trang-quan-tri-vien"
     }
 }

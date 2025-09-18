@@ -102,7 +102,7 @@ router.post("/apply", verifyToken, verifyRole("ungvien"), upload.single("cv"), a
   }
 );
 
-// Lấy danh sách đơn ứng tuyển của chính ứng viên (từ token)
+// Lấy danh sách đơn ứng tuyển của chính ứng viên
 router.get("/candidate", verifyToken, verifyRole("ungvien"), async (req, res) => {
   try {
     const candidateId = req.user.id; // lấy từ token

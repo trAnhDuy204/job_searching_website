@@ -47,7 +47,7 @@ const LoginPage = () => {
             navigate('/trang-nha-tuyen-dung');
             break;
           case 'admin':
-            navigate('/trang-quan-ly');
+            navigate('/trang-quan-tri-vien');
             break;
           default:
             navigate('/');

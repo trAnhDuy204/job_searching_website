@@ -106,7 +106,7 @@ export default function EmployeeJobSearch() {
     if (filters.category || filters.location || filters.job_type) {
       fetchJobs();
     } else if (!filters.keyword) {
-      // nếu bỏ hết select và không có keyword → load lại tất cả
+      // nếu bỏ hết select và không có keyword thì load lại tất cả
       fetchJobs({ keyword: "" });
     }
   }, [filters.category, filters.location, filters.job_type]);
