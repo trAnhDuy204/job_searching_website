@@ -14,6 +14,13 @@ yarn install
 # hoặc nếu dùng npm
 npm install
 ```
+### ⚙️ Cài đặt cấu hình yêu cầu
+
+```bash
+# Đọc từng dòng trong file và cài bằng yarn
+yarn add client_requirements.txt
+```
+
 ### 🛠️ Cấu hình .env
 
 ```env
@@ -35,6 +42,13 @@ Mặc định chạy tại: http://localhost:5000
 ```bash
 cd "client path"
 ```
+### ⚙️ Cài đặt cấu hình yêu cầu
+
+```bash
+# Đọc từng dòng trong file và cài bằng yarn
+yarn add server_requirements.txt
+```
+
 ### ▶️ Khởi chạy client
 
 ```bash
