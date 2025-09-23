@@ -22,8 +22,8 @@ const JobCard = ({ job, onClick, saved, onToggleSave }) => {
         <img
           src={
             job.logo
-              ? `http://localhost:5000${job.logo}`
-              : "http://localhost:5000/uploads/default/logo_company_default.jpg"
+              ? `https://jobverse-server.vercel.app${job.logo}`
+              : "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"
           }
           alt="Logo"
           className="w-10 h-10 object-contain"

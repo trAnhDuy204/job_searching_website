@@ -29,7 +29,7 @@ const RegisterPage = () => {
     setSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auths/register', form);
+      const res = await axios.post('https://jobverse-server.vercel.app/api/auths/register', form);
       setSuccess(res.data.message);
       setTimeout(() => navigate('/dang-nhap'), 2000); // về trang đăng nhập sau 2s
     } catch (err) {

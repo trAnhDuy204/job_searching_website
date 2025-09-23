@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Ảnh đại diện mặc định
-const DEFAULT_AVATAR = "http://localhost:5000/uploads/default/avatar_default.svg";
+const DEFAULT_AVATAR = "https://jobverse-server.vercel.app/default/avatar_default.svg";
 
 export default function CVTemplate() {
   const [avatar, setAvatar] = useState(null);

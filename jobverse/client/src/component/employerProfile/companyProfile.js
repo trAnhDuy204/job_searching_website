@@ -54,7 +54,7 @@ const CompanyProfileHeader = () => {
         <div className="relative w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
           {company.logo_url && (
             <img
-              src={`http://localhost:5000${company.logo_url}`}
+              src={`https://jobverse-server.vercel.app${company.logo_url}`}
               alt="logo"
               className="w-full h-full object-cover"
             />

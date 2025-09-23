@@ -49,7 +49,7 @@ export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
         ) : (
           <div className="mt-4 space-y-3 text-gray-700 text-sm">
             <div className="flex gap-4 items-center">
-              <img src={company.logo_url ? `http://localhost:5000${company.logo_url}` : "http://localhost:5000/uploads/default/logo_company_default.jpg"} alt="" className="w-24 h-24 object-cover rounded" />
+              <img src={company.logo_url ? `https://jobverse-server.vercel.app${company.logo_url}` : "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"} alt="" className="w-24 h-24 object-cover rounded" />
               <div>
                 <div className="text-lg font-semibold">{company.company_name}</div>
                 <div className="text-xs text-gray-500">{company.industry} • {company.company_size}</div>

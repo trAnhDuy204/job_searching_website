@@ -19,7 +19,7 @@ const LoginPage = () => {
     setSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auths/login', form);
+      const res = await axios.post('https://jobverse-server.vercel.app/api/auths/login', form);
 
       const { token, user, message } = res.data;
 

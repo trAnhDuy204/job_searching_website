@@ -83,7 +83,7 @@ const ProfileHeader = () => {
         <div className="relative w-16 h-16 rounded-full bg-gray-200 cursor-pointer" onClick={() => fileInputRef.current.click()}>
           <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={handleUploadAvatar}/>
           {profile.avatar_url && (
-            <img src={`http://localhost:5000${profile.avatar_url}`} alt="avatar" className="w-full h-full rounded-full object-cover"/>
+            <img src={`https://jobverse-server.vercel.app${profile.avatar_url}`} alt="avatar" className="w-full h-full rounded-full object-cover"/>
           )}
           <span className="absolute bottom-0 right-0 bg-white border rounded-full p-1 text-xs shadow">📷</span>
         </div>

@@ -57,7 +57,7 @@ const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
                     <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 border">
                       {form.logo_url ? (
                         <img
-                          src={`http://localhost:5000${form.logo_url}`}
+                          src={`https://jobverse-server.vercel.app${form.logo_url}`}
                           alt="logo"
                           className="w-full h-full object-cover"
                         />

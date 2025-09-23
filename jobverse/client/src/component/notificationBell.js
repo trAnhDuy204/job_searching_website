@@ -4,7 +4,7 @@ import {axiosCandidate, axiosRecruiter} from "../JWT/axiosClient";
 import { Bell, X } from "lucide-react";
 import { motion } from "framer-motion";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://jobverse-server.vercel.app");
 
 export default function NotificationBell({ userId, token }) {
   console.log(userId);

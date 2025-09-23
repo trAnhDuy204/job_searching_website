@@ -149,7 +149,7 @@ export default function ApplicationManagement() {
                 <td className="border px-4 py-3 text-left font-medium text-gray-700">
                   {app.cv_url ? (
                     <a
-                      href={`http://localhost:5000${app.cv_url}`}
+                      href={`https://jobverse-server.vercel.app${app.cv_url}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"

@@ -28,7 +28,7 @@ const CompanyList = () => {
             className="flex flex-col items-center p-4 bg-white rounded-2xl shadow hover:shadow-lg transition"
           >
             <img
-              src={`http://localhost:5000${company.logo_url}` || "http://localhost:5000/uploads/default/logo_company_default.jpg"}
+              src={`https://jobverse-server.vercel.app${company.logo_url}` || "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"}
               alt={company.company_name}
               className="w-20 h-20 object-contain mb-3"
             />

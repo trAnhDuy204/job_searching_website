@@ -33,8 +33,8 @@ const JobDetailModal = ({ job, onClose }) => {
             <img
               src={
                 job.logo
-                  ? `http://localhost:5000${job.logo}`
-                  : "http://localhost:5000/uploads/default/logo_company_default.jpg"
+                  ? `https://jobverse-server.vercel.app${job.logo}`
+                  : "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"
               }
               alt="Company Logo"
               className="w-12 h-12 object-contain"

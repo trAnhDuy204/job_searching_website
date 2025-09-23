@@ -119,7 +119,7 @@ export default function ReviewCompanyLayout({companyId}) {
       {/* Cover */}
       <div className="w-full h-48 md:h-60 bg-gray-200">
         <img
-          src={`http://localhost:5000/uploads/default/cover_company_default.png`}
+          src={`https://jobverse-server.vercel.app/uploads/default/cover_company_default.png`}
           alt="cover"
           className="w-full h-full object-cover"
         />
@@ -131,7 +131,7 @@ export default function ReviewCompanyLayout({companyId}) {
           <div className="flex items-start gap-4">
             <div className="w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden ring-4 ring-white -mt-12">
               {company.logo_url ? (
-                <img src={`http://localhost:5000${company.logo_url}`} alt={company.name} className="w-full h-full object-cover" />
+                <img src={`https://jobverse-server.vercel.app${company.logo_url}`} alt={company.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400 text-xl">
                   {company.name?.charAt(0) || "C"}
