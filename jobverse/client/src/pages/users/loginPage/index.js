@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './style.scss';
 
 const LoginPage = () => {
@@ -94,7 +94,8 @@ const LoginPage = () => {
         {success && <p className="mt-4 text-green-500 text-sm text-center">{success}</p>}
 
         <p className="mt-6 text-sm text-gray-600 text-center">
-          Bạn chưa có tài khoản? <a href="/dang-ky" className="text-teal-600 font-medium hover:underline">Đăng ký</a>
+          Bạn chưa có tài khoản?
+          <Link to="/dang-ky" className="text-teal-600 font-medium hover:underline">Đăng ký</Link>
         </p>
       </div>
     </div>

@@ -2,7 +2,7 @@ import{ memo } from "react";
 import "./style.scss";
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -90,7 +90,8 @@ const RegisterPage = () => {
         {success && <p className="mt-4 text-green-500 text-sm text-center">{success}</p>}
 
         <p className="mt-6 text-sm text-gray-600 text-center">
-          Bạn đã có tài khoản? <a href="/dang-nhap" className="text-teal-600 font-medium hover:underline">Đăng nhập</a>
+          Bạn đã có tài khoản? 
+          <Link to="/dang-nhap" className="text-teal-600 font-medium hover:underline">Đăng nhập</Link>
         </p>
       </div>
     </div>
