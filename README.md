@@ -1,6 +1,6 @@
 
 # 🧑‍💼 Website Đăng Tin Tuyển Dụng và Tìm Kiếm Việc Làm
-
+# xem chi tiết báo cáo tại https://drive.google.com/file/d/1Fe_jkGPTdk1dQ1bI1NXR_n9kob_5Bzab/view?usp=drive_link
 ## 📝 Giới thiệu
 Đây là đồ án tốt nghiệp ngành Khoa học máy tính, được phát triển nhằm xây dựng một nền tảng tuyển dụng trực tuyến có tính năng **thân thiện với người dùng**, **hiệu quả về mặt hiệu năng**, và **mở rộng dễ dàng trong tương lai**.
 
