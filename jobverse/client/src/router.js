@@ -1,5 +1,5 @@
 import { ROUTERS } from "./utils/router";
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import HomePage from "./pages/users/homePage";
 import MasterLayout from "./pages/users/theme/masterLayout";
 import AdminLayout from "./pages/users/theme/adminLayout";
@@ -23,8 +23,7 @@ import AdminHomePage from "./pages/admin/homePage";
 
 const RouterCustom = ()=>{
     return (
-        <Router basename="/job_searching_website">
-            <Routes>
+        <Routes>
                 {/*Trang đăng ký*/}
                 <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
 
@@ -71,8 +70,8 @@ const RouterCustom = ()=>{
                     <Route path={ROUTERS.USER.HOME_JOBSEARCH} element={<HomeJobSearchPage/>} />
                     <Route path={ROUTERS.USER.HOME_CREATECVPAGE} element={<HomeCreateCVPage />} />
                 </Route>
-            </Routes>
-        </Router>
+        </Routes>
+
     );
 };
 
