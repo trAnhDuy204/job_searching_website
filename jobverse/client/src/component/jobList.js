@@ -25,7 +25,7 @@ const JobList = () => {
   }, [page]);
 
   const handleJobClick = (job) => {
-    const token = localStorage.getItem("token_ungvien");
+    const token = localStorage.getItem("token_ungvien","token_nhatuyendung","token_admin");
     if (!token) {
       alert("Vui lòng đăng nhập để xem chi tiết công việc.");
       return;

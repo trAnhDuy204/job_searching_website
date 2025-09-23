@@ -7,7 +7,7 @@ import "./style/style.scss";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter basename='/job_searching_website'>
+    <BrowserRouter >
         <RouterCustom/>
     </BrowserRouter>
 );
