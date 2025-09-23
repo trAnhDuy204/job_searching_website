@@ -51,7 +51,9 @@ io.on("connection", (socket) => {
 
 // Cho phép emit từ router
 app.set("io", io);
-app.use(cors());
+app.use(cors({
+  origin: "*", // hoặc chỉ định domain React
+}));
 app.use(express.json());
 
 app.use("/", (req,res)=>{
@@ -109,4 +111,5 @@ cron.schedule("0 0 * * *", async () => {
 });
 
 // Lắng nghe trên cổng 5000
-server.listen(5000, () => console.log("Server chạy port 5000"));
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Server đang chạy trên cổng ${PORT}`));
