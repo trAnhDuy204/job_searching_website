@@ -54,6 +54,10 @@ app.set("io", io);
 app.use(cors());
 app.use(express.json());
 
+app.use("/", (req,res)=>{
+  res.send("API is running...");
+});
+
 
 // Router xử lý các API auth
 app.use('/api/auths', authRoutes);
