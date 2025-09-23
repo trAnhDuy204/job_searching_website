@@ -1,5 +1,5 @@
 import { ROUTERS } from "./utils/router";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import HomePage from "./pages/users/homePage";
 import MasterLayout from "./pages/users/theme/masterLayout";
 import AdminLayout from "./pages/users/theme/adminLayout";
@@ -23,54 +23,56 @@ import AdminHomePage from "./pages/admin/homePage";
 
 const RouterCustom = ()=>{
     return (
-        <Routes>
-            {/*Trang đăng ký*/}
-            <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
+        <Router basename="/job_searching_website">
+            <Routes>
+                {/*Trang đăng ký*/}
+                <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
 
-            {/*Trang đăng nhập */}
-            <Route path={ROUTERS.USER.LOGIN} element={<LoginPage/>} />
+                {/*Trang đăng nhập */}
+                <Route path={ROUTERS.USER.LOGIN} element={<LoginPage/>} />
 
-            {/*Trang quan trị viên*/}
-            <Route element={
-                <ProtectedRoute role="admin">
-                    <AdminLayout />
-                </ProtectedRoute>
-            }>
-                <Route path={ROUTERS.USER.ADMIN_HOMEPAGE} element={<AdminHomePage/>} />
-            </Route>
-            
-            {/*Trang chủ ứng viên*/}
-            <Route element={
-                <ProtectedRoute role="ungvien">
-                    <EmployeeLayout />
-                </ProtectedRoute>
-            }>
-                <Route path={ROUTERS.USER.EMPLOYEE_HOMEPAGE} element={<EmployeeHomePage/>} />
-                <Route path={ROUTERS.USER.EMPLOYEE_PROFILE} element={<EmployeeProfilePage/>} />
-                <Route path={ROUTERS.USER.EMPLOYEE_CREATECVPAGE} element={<EmployeeCreateCVPage/>}/>
-                <Route path={ROUTERS.USER.EMPLOYEE_JOBSEARCH} element={<JobSearchPage/>}/>
-                <Route path={ROUTERS.USER.EMPLOYEE_COMPANYPAGE} element={<ReviewCompanyPage/>}/>
-            </Route>
+                {/*Trang quan trị viên*/}
+                <Route element={
+                    <ProtectedRoute role="admin">
+                        <AdminLayout />
+                    </ProtectedRoute>
+                }>
+                    <Route path={ROUTERS.USER.ADMIN_HOMEPAGE} element={<AdminHomePage/>} />
+                </Route>
+                
+                {/*Trang chủ ứng viên*/}
+                <Route element={
+                    <ProtectedRoute role="ungvien">
+                        <EmployeeLayout />
+                    </ProtectedRoute>
+                }>
+                    <Route path={ROUTERS.USER.EMPLOYEE_HOMEPAGE} element={<EmployeeHomePage/>} />
+                    <Route path={ROUTERS.USER.EMPLOYEE_PROFILE} element={<EmployeeProfilePage/>} />
+                    <Route path={ROUTERS.USER.EMPLOYEE_CREATECVPAGE} element={<EmployeeCreateCVPage/>}/>
+                    <Route path={ROUTERS.USER.EMPLOYEE_JOBSEARCH} element={<JobSearchPage/>}/>
+                    <Route path={ROUTERS.USER.EMPLOYEE_COMPANYPAGE} element={<ReviewCompanyPage/>}/>
+                </Route>
 
-            {/*Trang chủ nhà tuyển dụng*/}
-            <Route element={
-                <ProtectedRoute role="nhatuyendung">
-                    <EmployerLayout />
-                </ProtectedRoute>
-            }>
-                <Route path={ROUTERS.USER.EMPLOYER_HOMEPAGE} element={<EmployerHomePage/>} />
-                <Route path={ROUTERS.USER.EMPLOYER_PROFILE} element={<EmployerProfilePage/>} />
-                <Route path={ROUTERS.USER.EMPLOYER_POSTJOBFORMPAGE} element={<PostJobFormPage/>} />
-                <Route path={ROUTERS.USER.EMPLOYER_COMPANYPAGE} element={<CompanyPage/>}/>
-            </Route>
-            
-            {/*Trang chủ*/}
-            <Route element={<MasterLayout />}>
-                <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
-                <Route path={ROUTERS.USER.HOME_JOBSEARCH} element={<HomeJobSearchPage/>} />
-                <Route path={ROUTERS.USER.HOME_CREATECVPAGE} element={<HomeCreateCVPage />} />
-            </Route>
-        </Routes>
+                {/*Trang chủ nhà tuyển dụng*/}
+                <Route element={
+                    <ProtectedRoute role="nhatuyendung">
+                        <EmployerLayout />
+                    </ProtectedRoute>
+                }>
+                    <Route path={ROUTERS.USER.EMPLOYER_HOMEPAGE} element={<EmployerHomePage/>} />
+                    <Route path={ROUTERS.USER.EMPLOYER_PROFILE} element={<EmployerProfilePage/>} />
+                    <Route path={ROUTERS.USER.EMPLOYER_POSTJOBFORMPAGE} element={<PostJobFormPage/>} />
+                    <Route path={ROUTERS.USER.EMPLOYER_COMPANYPAGE} element={<CompanyPage/>}/>
+                </Route>
+                
+                {/*Trang chủ*/}
+                <Route element={<MasterLayout />}>
+                    <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
+                    <Route path={ROUTERS.USER.HOME_JOBSEARCH} element={<HomeJobSearchPage/>} />
+                    <Route path={ROUTERS.USER.HOME_CREATECVPAGE} element={<HomeCreateCVPage />} />
+                </Route>
+            </Routes>
+        </Router>
     );
 };
 
