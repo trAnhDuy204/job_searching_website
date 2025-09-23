@@ -10,7 +10,7 @@ const SavedJobsList = () => {
   useEffect(() => {
     const fetchSavedJobs = async () => {
       try {
-        const res = await axiosCandidate.get("/saved-jobs/list");
+        const res = await axiosCandidate.get("/api/saved-jobs/list");
         setSavedJobs(res.data);
       } catch (err) {
         console.error("Lỗi tải tin đã lưu:", err);
@@ -24,7 +24,7 @@ const SavedJobsList = () => {
 
   const handleToggleSave = async (jobId) => {
     try {
-      const res = await axiosCandidate.post("/saved-jobs/toggle", {
+      const res = await axiosCandidate.post("/api/saved-jobs/toggle", {
         job_post_id: jobId,
       });
       if (!res.data.saved) {

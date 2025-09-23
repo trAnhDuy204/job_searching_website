@@ -36,7 +36,7 @@ const EmployeeHeader = ({user}) => {
   useEffect(() => {
     const fetchCompanyProfile = async () => {
       try {
-          const res = await axiosRecruiter.get("/company/me");
+          const res = await axiosRecruiter.get("/api/company/me");
           setCompany(res.data);
         } catch (err) {
           console.error("Lỗi khi lấy hồ sơ công ty:", err);

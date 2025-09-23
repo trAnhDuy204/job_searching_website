@@ -10,6 +10,7 @@ const removeVietnameseTones = (str) =>
 
 export default function CompanyPageLayout({companyId}) {
   console.log(companyId);
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [company, setCompany] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [loadingCompany, setLoadingCompany] = useState(true);
@@ -31,7 +32,7 @@ export default function CompanyPageLayout({companyId}) {
       setLoadingCompany(true);
       setError(null);
       try {
-        const res = await axiosRecruiter.get(`/company/${companyId}`);
+        const res = await axiosRecruiter.get(`/api/company/${companyId}`);
         if (mounted) setCompany(res.data);
 
       } catch (err) {
@@ -46,7 +47,7 @@ export default function CompanyPageLayout({companyId}) {
     const fetchJobs = async () => {
       setLoadingJobs(true);
       try {
-        const res = await axiosRecruiter.get(`/jobPosts/${companyId}/jobs`);
+        const res = await axiosRecruiter.get(`/api/jobPosts/${companyId}/jobs`);
         if (mounted) setJobs(res.data || []);
 
       } catch (err) {
@@ -97,7 +98,7 @@ export default function CompanyPageLayout({companyId}) {
       {/* Cover */}
       <div className="w-full h-48 md:h-60 bg-gray-200">
         <img
-          src={`https://jobverse-server.vercel.app/uploads/default/cover_company_default.png`}
+          src={`${API_URL}/uploads/default/cover_company_default.png`}
           alt="cover"
           className="w-full h-full object-cover"
         />
@@ -109,7 +110,7 @@ export default function CompanyPageLayout({companyId}) {
           <div className="flex items-start gap-4">
             <div className="w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden ring-4 ring-white -mt-12">
               {company.logo_url ? (
-                <img src={`https://jobverse-server.vercel.app${company.logo_url}`} alt={company.name} className="w-full h-full object-cover" />
+                <img src={`${API_URL}${company.logo_url}`} alt={company.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400 text-xl">
                   {company.name?.charAt(0) || "C"}

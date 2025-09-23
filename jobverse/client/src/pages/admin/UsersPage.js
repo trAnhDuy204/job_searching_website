@@ -7,7 +7,7 @@ export default function UsersPage() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async () => {
-    const res = await axiosAdmin.get("/admin/users");
+    const res = await axiosAdmin.get("/api/admin/users");
     setUsers(res.data);
   };
 
@@ -17,7 +17,7 @@ export default function UsersPage() {
 
   const deleteUser = async (id) => {
     if (window.confirm("Xóa user này?")) {
-      await axiosAdmin.delete(`/admin/users/${id}`);
+      await axiosAdmin.delete(`/api/admin/users/${id}`);
       fetchUsers();
     }
   };

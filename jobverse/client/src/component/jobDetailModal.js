@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ApplyModal from "./applyModal";
 
 const JobDetailModal = ({ job, onClose }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [showApplyModal, setShowApplyModal] = useState(false);
   const navigate = useNavigate();
 
@@ -33,8 +34,8 @@ const JobDetailModal = ({ job, onClose }) => {
             <img
               src={
                 job.logo
-                  ? `https://jobverse-server.vercel.app${job.logo}`
-                  : "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"
+                  ? `${API_URL}${job.logo}`
+                  : `${API_URL}/uploads/default/logo_company_default.jpg`
               }
               alt="Company Logo"
               className="w-12 h-12 object-contain"

@@ -32,13 +32,13 @@ export default function EditJobModal({ isOpen, jobData, onClose, onUpdated }) {
       const token = localStorage.getItem("token_nhatuyendung");
 
       const [catsRes, locsRes, typesRes] = await Promise.all([
-        axiosRecruiter.get("/categories", {
+        axiosRecruiter.get("/api/categories", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axiosRecruiter.get("/locations", {
+        axiosRecruiter.get("/api/locations", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axiosRecruiter.get("/job-types", {
+        axiosRecruiter.get("/api/job-types", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -82,7 +82,7 @@ export default function EditJobModal({ isOpen, jobData, onClose, onUpdated }) {
     }
     try {
       const token = localStorage.getItem("token_nhatuyendung");
-      await axiosRecruiter.put(`/employer/jobs/${jobData.id}`, formData, {
+      await axiosRecruiter.put(`/api/employer/jobs/${jobData.id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onUpdated();

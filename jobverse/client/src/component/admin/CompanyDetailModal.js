@@ -4,7 +4,7 @@ import {axiosAdmin} from "../../JWT/axiosClient";
 export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
   const [company, setCompany] = useState(null);
   const token = localStorage.getItem("token_admin") || localStorage.getItem("token_nhatuyendung");
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   useEffect(() => {
     if (!companyId) return;
     fetchCompany();
@@ -12,7 +12,7 @@ export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
 
   const fetchCompany = async () => {
     try {
-      const res = await axiosAdmin.get(`/admin/companies/${companyId}`, {
+      const res = await axiosAdmin.get(`/api/admin/companies/${companyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCompany(res.data);
@@ -24,7 +24,7 @@ export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
   const handleDelete = async () => {
     if (!window.confirm("Xóa công ty sẽ xóa luôn tin tuyển dụng và hồ sơ liên quan. Chắc chắn?")) return;
     try {
-      await axiosAdmin.delete(`/admin/companies/${companyId}`, {
+      await axiosAdmin.delete(`/api/admin/companies/${companyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onDeleted?.();
@@ -49,7 +49,7 @@ export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
         ) : (
           <div className="mt-4 space-y-3 text-gray-700 text-sm">
             <div className="flex gap-4 items-center">
-              <img src={company.logo_url ? `https://jobverse-server.vercel.app${company.logo_url}` : "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"} alt="" className="w-24 h-24 object-cover rounded" />
+              <img src={company.logo_url ? `${API_URL}${company.logo_url}` : `${API_URL}/uploads/default/logo_company_default.jpg`} alt="" className="w-24 h-24 object-cover rounded" />
               <div>
                 <div className="text-lg font-semibold">{company.company_name}</div>
                 <div className="text-xs text-gray-500">{company.industry} • {company.company_size}</div>

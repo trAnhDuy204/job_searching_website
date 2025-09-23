@@ -5,6 +5,7 @@ import {axiosRecruiter} from "../../JWT/axiosClient";
 import EditProfileModal from "./editProfileModal";
 
 const ProfileHeader = () => {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [profile, setProfile] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
@@ -20,7 +21,7 @@ const ProfileHeader = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axiosRecruiter.get("/profile/me");
+        const res = await axiosRecruiter.get("/api/profile/me");
         setProfile(res.data);
         setForm(res.data);
       } catch (err) {
@@ -37,7 +38,7 @@ const ProfileHeader = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosRecruiter.put("/profile/me", form);
+      await axiosRecruiter.put("/api/profile/me", form);
       setProfile(form);
       setIsOpen(false);
     } catch (err) {
@@ -55,7 +56,7 @@ const ProfileHeader = () => {
     formData.append("avatar", file);
 
     try {
-      const res = await axiosRecruiter.post("/profile/upload-avatar", formData, {
+      const res = await axiosRecruiter.post("/api/profile/upload-avatar", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       setProfile((prev) => ({ ...prev, avatar_url: res.data.avatar_url }));
@@ -83,7 +84,7 @@ const ProfileHeader = () => {
         <div className="relative w-16 h-16 rounded-full bg-gray-200 cursor-pointer" onClick={() => fileInputRef.current.click()}>
           <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={handleUploadAvatar}/>
           {profile.avatar_url && (
-            <img src={`https://jobverse-server.vercel.app${profile.avatar_url}`} alt="avatar" className="w-full h-full rounded-full object-cover"/>
+            <img src={`${API_URL}${profile.avatar_url}`} alt="avatar" className="w-full h-full rounded-full object-cover"/>
           )}
           <span className="absolute bottom-0 right-0 bg-white border rounded-full p-1 text-xs shadow">📷</span>
         </div>

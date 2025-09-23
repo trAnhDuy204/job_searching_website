@@ -40,7 +40,7 @@ export default function ApplyModal({ job, onClose}) {
       formDataUpload.append("job_title", job.title);
 
       const resApply = await axiosCandidate.post(
-        "/applications/apply",
+        "/api/applications/apply",
         formDataUpload,
         {
           headers: {
@@ -53,7 +53,7 @@ export default function ApplyModal({ job, onClose}) {
 
       // Nếu apply thành công thì gửi message
       const resMessage = await axiosCandidate.post(
-        "/messages/",
+        "/api/messages/",
         {
           sender_id: user.id,
           receiver_id: job.post_id,
@@ -72,7 +72,7 @@ export default function ApplyModal({ job, onClose}) {
 
       // Sau khi gửi message thì tạo notification cho nhà tuyển dụng
       await axiosCandidate.post(
-        "/notifications",
+        "/api/notifications",
         {
           user_id: job.post_id,
           message_id: messageId,
@@ -95,7 +95,7 @@ export default function ApplyModal({ job, onClose}) {
       // Nếu message lỗi thì xoá application vừa tạo để rollback
       if (applicationId) {
         try {
-          await axiosCandidate.delete(`/applications/${applicationId}`, {
+          await axiosCandidate.delete(`/api/applications/${applicationId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token_ungvien")}`,
             },

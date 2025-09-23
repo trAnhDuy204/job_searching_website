@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { axiosRecruiter } from "../../JWT/axiosClient";
 
 export default function ApplicationManagement() {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const user = JSON.parse(localStorage.getItem("user_nhatuyendung"));
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ export default function ApplicationManagement() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axiosRecruiter.get("/manage-applications", {
+      const res = await axiosRecruiter.get("/api/manage-applications", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token_nhatuyendung")}`,
         },
@@ -50,7 +51,7 @@ export default function ApplicationManagement() {
     try {
       // Gửi tin nhắn
       const resMessage = await axiosRecruiter.post(
-        `/messages/`,
+        `/api/messages/`,
         {
           sender_id: user.id,
           receiver_id: selectedApp.candidate_id,
@@ -75,7 +76,7 @@ export default function ApplicationManagement() {
 
       // Tạo thông báo
       await axiosRecruiter.post(
-        `/notifications/`,
+        `/api/notifications/`,
         {
           user_id: selectedApp.candidate_id,
           message_id: messageId,
@@ -94,7 +95,7 @@ export default function ApplicationManagement() {
 
       // Đổi trạng thái đơn
       await axiosRecruiter.put(
-        `/manage-applications/${selectedApp.application_id}/status`,
+        `/api/manage-applications/${selectedApp.application_id}/status`,
         { status: newStatus },
         {
           headers: {
@@ -149,7 +150,7 @@ export default function ApplicationManagement() {
                 <td className="border px-4 py-3 text-left font-medium text-gray-700">
                   {app.cv_url ? (
                     <a
-                      href={`https://jobverse-server.vercel.app${app.cv_url}`}
+                      href={`${API_URL}${app.cv_url}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"

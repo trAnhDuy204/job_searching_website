@@ -21,9 +21,9 @@ export default function SearchBar() {
     const fetchData = async () => {
       try {
         const [catRes, locRes, typeRes] = await Promise.all([
-          axiosCandidate.get("/categories"),
-          axiosCandidate.get("/locations"),
-          axiosCandidate.get("/job-types"),
+          axiosCandidate.get("/api/categories"),
+          axiosCandidate.get("/api/locations"),
+          axiosCandidate.get("/api/job-types"),
         ]);
 
         setCategories(catRes.data);

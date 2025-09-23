@@ -10,7 +10,7 @@ const JobManagement = () => {
   const fetchJobs = useCallback(async () => {
     try {
       const token = localStorage.getItem("token_nhatuyendung");
-      const res = await axiosRecruiter.get("/employer/jobs", {
+      const res = await axiosRecruiter.get("/api/employer/jobs", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs(res.data || []);
@@ -29,7 +29,7 @@ const JobManagement = () => {
     if (!window.confirm("Bạn có chắc muốn xóa tin này?")) return;
     try {
       const token = localStorage.getItem("token_nhatuyendung");
-      await axiosRecruiter.delete(`/employer/jobs/${id}`, {
+      await axiosRecruiter.delete(`/api/employer/jobs/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs((prev) => prev.filter((job) => job.id !== id));

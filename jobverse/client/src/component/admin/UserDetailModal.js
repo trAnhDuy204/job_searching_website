@@ -4,6 +4,7 @@ import {axiosAdmin} from "../../JWT/axiosClient";
 export default function UserDetailModal({ userId, onClose, onDeleted }) {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("token_admin") || localStorage.getItem("token_nhatuyendung");
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     if (!userId) return;
@@ -12,7 +13,7 @@ export default function UserDetailModal({ userId, onClose, onDeleted }) {
 
   const fetchUser = async () => {
     try {
-      const res = await axiosAdmin.get(`/admin/users/${userId}`, {
+      const res = await axiosAdmin.get(`/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data);
@@ -25,7 +26,7 @@ export default function UserDetailModal({ userId, onClose, onDeleted }) {
   const handleDelete = async () => {
     if (!window.confirm("Bạn chắc chắn muốn xóa user này?")) return;
     try {
-      await axiosAdmin.delete(`/admin/users/${userId}`, {
+      await axiosAdmin.delete(`/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onDeleted?.();
@@ -50,7 +51,7 @@ export default function UserDetailModal({ userId, onClose, onDeleted }) {
           <div className="mt-4 space-y-3 text-sm text-gray-700">
             <div className="flex items-center gap-4">
               <img
-                src={user.avatar_url ? `https://jobverse-server.vercel.app${user.avatar_url}` : "https://jobverse-server.vercel.app/uploads/default/avatar_default.svg"}
+                src={user.avatar_url ? `${API_URL}${user.avatar_url}` : `${API_URL}/uploads/default/avatar_default.svg`}
                 alt="avatar"
                 className="w-20 h-20 object-cover rounded"
               />

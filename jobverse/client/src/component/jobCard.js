@@ -1,6 +1,7 @@
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 const JobCard = ({ job, onClick, saved, onToggleSave }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   return (
     <div
       onClick={onClick}
@@ -22,8 +23,8 @@ const JobCard = ({ job, onClick, saved, onToggleSave }) => {
         <img
           src={
             job.logo
-              ? `https://jobverse-server.vercel.app${job.logo}`
-              : "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"
+              ? `${API_URL}${job.logo}`
+              : `${API_URL}/uploads/default/logo_company_default.jpg`
           }
           alt="Logo"
           className="w-10 h-10 object-contain"

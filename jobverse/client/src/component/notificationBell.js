@@ -4,7 +4,8 @@ import {axiosCandidate, axiosRecruiter} from "../JWT/axiosClient";
 import { Bell, X } from "lucide-react";
 import { motion } from "framer-motion";
 
-const socket = io("https://jobverse-server.vercel.app");
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const socket = io(API_URL);
 
 export default function NotificationBell({ userId, token }) {
   console.log(userId);
@@ -21,13 +22,13 @@ export default function NotificationBell({ userId, token }) {
   const fetchNotifications = async () => {
     try {
       if(token !== localStorage.getItem("token_ungvien")){
-        const res = await axiosRecruiter.get(`/notifications/${userId}`, {
+        const res = await axiosRecruiter.get(`/api/notifications/${userId}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(res.data);
       }
       else{
-         const res = await axiosCandidate.get(`/notifications/${userId}`, {
+         const res = await axiosCandidate.get(`/api/notifications/${userId}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(res.data);
@@ -41,23 +42,23 @@ export default function NotificationBell({ userId, token }) {
     try {
       // đánh dấu đã đọc
       if(token !== localStorage.getItem("token_ungvien")){
-        await axiosRecruiter.put(`/notifications/${noti.id}/read`, {}, {
+        await axiosRecruiter.put(`/api/notifications/${noti.id}/read`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
         // lấy chi tiết message
-        const msgRes = await axiosRecruiter.get(`/messages/${noti.message_id}`, {
+        const msgRes = await axiosRecruiter.get(`/api/messages/${noti.message_id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setSelectedMessage(msgRes.data);
       }
       else{
         // đánh dấu đã đọc
-        await axiosCandidate.put(`/notifications/${noti.id}/read`, {}, {
+        await axiosCandidate.put(`/api/notifications/${noti.id}/read`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
 
         // lấy chi tiết message
-        const msgRes = await axiosCandidate.get(`/messages/${noti.message_id}`, {
+        const msgRes = await axiosCandidate.get(`/api/messages/${noti.message_id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setSelectedMessage(msgRes.data);
@@ -74,11 +75,11 @@ export default function NotificationBell({ userId, token }) {
   const handleDeleteNotification = async (id) => {
     try {
       if (!localStorage.getItem("token_ungvien")) {
-       await axiosRecruiter.delete(`/notifications/${id}`, {
+       await axiosRecruiter.delete(`/api/notifications/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       } else {
-         await axiosCandidate.delete(`/notifications/${id}`, {
+         await axiosCandidate.delete(`/api/notifications/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }

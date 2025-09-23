@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import {axiosCandidate} from "../JWT/axiosClient";
 
 const CompanyList = () => {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const res = await axiosCandidate.get("/company/list"); 
+        const res = await axiosCandidate.get("/api/company/list"); 
         setCompanies(res.data);
       } catch (err) {
         console.error("Lỗi khi lấy danh sách công ty:", err);
@@ -28,7 +29,7 @@ const CompanyList = () => {
             className="flex flex-col items-center p-4 bg-white rounded-2xl shadow hover:shadow-lg transition"
           >
             <img
-              src={`https://jobverse-server.vercel.app${company.logo_url}` || "https://jobverse-server.vercel.app/uploads/default/logo_company_default.jpg"}
+              src={`${API_URL}${company.logo_url}` || `${API_URL}/uploads/default/logo_company_default.jpg`}
               alt={company.company_name}
               className="w-20 h-20 object-contain mb-3"
             />

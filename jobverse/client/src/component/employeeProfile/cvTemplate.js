@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 // Ảnh đại diện mặc định
-const DEFAULT_AVATAR = "https://jobverse-server.vercel.app/default/avatar_default.svg";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const DEFAULT_AVATAR = `${API_URL}/uploads/default/avatar_default.svg`;
 
 export default function CVTemplate() {
   const [avatar, setAvatar] = useState(null);

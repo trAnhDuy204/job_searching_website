@@ -13,7 +13,7 @@ const JobList = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axiosCandidate.get(`/jobPosts?page=${page}&limit=12`);
+        const res = await axiosCandidate.get(`/api/jobPosts?page=${page}&limit=12`);
         setJobs(res.data.jobs);
         setTotalPages(res.data.totalPages);
       } catch (err) {
@@ -40,7 +40,7 @@ const JobList = () => {
       return;
     }
     try {
-      const res = await axiosCandidate.post(`/saved-jobs/toggle`, { job_post_id: jobId });
+      const res = await axiosCandidate.post(`/api/saved-jobs/toggle`, { job_post_id: jobId });
       setJobs((prev) =>
         prev.map((job) =>
           job.id === jobId ? { ...job, is_saved: res.data.saved } : job

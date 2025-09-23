@@ -51,12 +51,14 @@ io.on("connection", (socket) => {
 
 // Cho phép emit từ router
 app.set("io", io);
+
 app.use(cors({
   origin: "*", // hoặc chỉ định domain React
 }));
+
 app.use(express.json());
 
-app.use("/", (req,res)=>{
+app.get("/", (req,res)=>{
   res.send("API is running...");
 });
 

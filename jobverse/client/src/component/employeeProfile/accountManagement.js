@@ -21,7 +21,7 @@ export default function AccountManagement() {
   const handleUpdateEmail = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosCandidate.put( "/account/update-email",
+      const res = await axiosCandidate.put( "/api/account/update-email",
         { email, currentPassword: currentPasswordForEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -36,7 +36,7 @@ export default function AccountManagement() {
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosCandidate.put( "/account/update-password",
+      const res = await axiosCandidate.put( "/api/account/update-password",
         { currentPassword: currentPasswordForPass, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -3,6 +3,7 @@ import { Fragment, useRef } from "react";
 import {axiosRecruiter} from "../../JWT/axiosClient";
 
 const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const fileInputRef = useRef(null);
 
   const handleUploadLogo = async (e) => {
@@ -14,7 +15,7 @@ const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
 
     try {
         const token = localStorage.getItem("token_nhatuyendung");
-        const res = await axiosRecruiter.post("/company/upload-logo", formData, {
+        const res = await axiosRecruiter.post("/api/company/upload-logo", formData, {
         headers: { "Content-Type": "multipart/form-data", 
                     Authorization: `Bearer ${token}` }
         });
@@ -57,7 +58,7 @@ const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
                     <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 border">
                       {form.logo_url ? (
                         <img
-                          src={`https://jobverse-server.vercel.app${form.logo_url}`}
+                          src={`${API_URL}${form.logo_url}`}
                           alt="logo"
                           className="w-full h-full object-cover"
                         />

@@ -51,9 +51,9 @@ const PostJobForm = () => {
     const fetchOptions = async () => {
       try {
         const [catRes, locRes, typeRes] = await Promise.all([
-          axiosRecruiter.get("/categories"),
-          axiosRecruiter.get("/locations"),
-          axiosRecruiter.get("/job-types"),
+          axiosRecruiter.get("/api/categories"),
+          axiosRecruiter.get("/api/locations"),
+          axiosRecruiter.get("/api/job-types"),
         ]);
         setCategories(catRes.data);
         setLocations(locRes.data);

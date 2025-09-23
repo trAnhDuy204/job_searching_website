@@ -13,7 +13,7 @@ export default function JobDetailModalAdmin({ jobId, onClose, onDeleted}) {
 
   const fetchJob = async () => {
     try {
-      const res = await axiosAdmin.get(`/admin/job-posts/${jobId}`, {
+      const res = await axiosAdmin.get(`/api/admin/job-posts/${jobId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJob(res.data);
@@ -25,7 +25,7 @@ export default function JobDetailModalAdmin({ jobId, onClose, onDeleted}) {
   const handleDelete = async () => {
     if (!window.confirm("Xóa tin tuyển dụng này?")) return;
     try {
-      await axiosAdmin.delete(`/admin/job-posts/${jobId}`, {
+      await axiosAdmin.delete(`/api/admin/job-posts/${jobId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onDeleted?.();

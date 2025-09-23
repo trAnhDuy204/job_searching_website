@@ -56,7 +56,7 @@ export default function EmployeeJobSearch() {
       const normalizedKeyword = removeVietnameseTones(filters.keyword || "").toLowerCase();
 
       // gọi API lấy tất cả jobs với filters khác
-      const res = await axiosCandidate.get("/jobPosts/candidate/search", {
+      const res = await axiosCandidate.get("/api/jobPosts/candidate/search", {
         params: {
           category: filters.category,
           location: filters.location,
@@ -84,9 +84,9 @@ export default function EmployeeJobSearch() {
   const fetchMetaData = async () => {
     try {
       const [catRes, locRes, typeRes] = await Promise.all([
-        axiosCandidate.get("/categories"),
-        axiosCandidate.get("/locations"),
-        axiosCandidate.get("/job-types")
+        axiosCandidate.get("/api/categories"),
+        axiosCandidate.get("/api/locations"),
+        axiosCandidate.get("/api/job-types")
       ]);
       setCategories(catRes.data);
       setLocations(locRes.data);
@@ -146,7 +146,7 @@ export default function EmployeeJobSearch() {
       return;
     }
     try {
-      const res = await axiosCandidate.post(`/saved-jobs/toggle`, {
+      const res = await axiosCandidate.post(`/api/saved-jobs/toggle`, {
         job_post_id: jobId
       });
       setJobs((prev) =>

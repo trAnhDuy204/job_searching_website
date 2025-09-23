@@ -4,6 +4,7 @@ import {axiosRecruiter} from "../../JWT/axiosClient";
 import EditCompanyModal from "./editCompanyModal";
 
 const CompanyProfileHeader = () => {
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [company, setCompany] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
@@ -20,7 +21,7 @@ const CompanyProfileHeader = () => {
   useEffect(() => {
     const fetchCompanyProfile = async () => {
       try {
-        const res = await axiosRecruiter.get("/company/me");
+        const res = await axiosRecruiter.get("/api/company/me");
         setCompany(res.data);
         setForm(res.data);
       } catch (err) {
@@ -37,7 +38,7 @@ const CompanyProfileHeader = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosRecruiter.put("/company/me", form);
+      await axiosRecruiter.put("/api/company/me", form);
       setCompany(form);
       setIsOpen(false);
     } catch (err) {
@@ -54,7 +55,7 @@ const CompanyProfileHeader = () => {
         <div className="relative w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
           {company.logo_url && (
             <img
-              src={`https://jobverse-server.vercel.app${company.logo_url}`}
+              src={`${API_URL}${company.logo_url}`}
               alt="logo"
               className="w-full h-full object-cover"
             />

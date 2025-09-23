@@ -7,7 +7,7 @@ export default function CompaniesPage() {
   const [selectedCompany, setSelectedCompany] = useState(null);
 
   const fetchCompanies = async () => {
-    const res = await axiosAdmin.get("/admin/companies");
+    const res = await axiosAdmin.get("/api/admin/companies");
     setCompanies(res.data);
   };
 
@@ -17,7 +17,7 @@ export default function CompaniesPage() {
 
   const deleteCompany = async (id) => {
     if (window.confirm("Xóa công ty này?")) {
-      await axiosAdmin.delete(`/admin/companies/${id}`);
+      await axiosAdmin.delete(`/api/admin/companies/${id}`);
       fetchCompanies();
     }
   };

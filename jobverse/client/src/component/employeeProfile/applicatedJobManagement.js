@@ -9,7 +9,7 @@ const AppliedJobsManagement = () => {
     const fetchApplications = async () => {
 
       try {
-        const res = await axiosCandidate.get(`/applications/candidate`, {
+        const res = await axiosCandidate.get(`/api/applications/candidate`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token_ungvien")}`,
         },

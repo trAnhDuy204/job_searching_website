@@ -7,7 +7,7 @@ export default function JobsPage() {
   const [selectedJob, setSelectedJob] = useState(null);
 
   const fetchJobs = async () => {
-    const res = await axiosAdmin.get("/admin/job-posts");
+    const res = await axiosAdmin.get("/api/admin/job-posts");
     setJobs(res.data);
   };
 
@@ -15,13 +15,13 @@ export default function JobsPage() {
     fetchJobs();
   }, []);
   const updateStatus = async () => {
-    await axiosAdmin.put(`/admin/job-posts/status`);
+    await axiosAdmin.put(`/api/admin/job-posts/status`);
     fetchJobs();
   };
 
   const deleteJob = async (id) => {
     if (window.confirm("Xóa tin tuyển dụng này?")) {
-      await axiosAdmin.delete(`/admin/job-posts/${id}`);
+      await axiosAdmin.delete(`/api/admin/job-posts/${id}`);
       fetchJobs();
     }
   };
