@@ -28,7 +28,7 @@ Website hỗ trợ ba loại tài khoản:
 - Nộp đơn ứng tuyển + gửi tin nhắn cho nhà tuyển dụng
 - Tạo CV trực tuyến
 - Lưu tin tuyển dụng, theo dõi trạng thái đơn ứng tuyển
-- Xem phân tích mức lương trung bình theo ngành
+- Xem phân tích mức lương trung bình theo ngành (dữ liệu tiền sử lý: https://drive.google.com/file/d/1aOtlv8rOT_VKtgQTetG6POR98y-Xnpkc/view?usp=drive_link)
 
 ### 📌 2. Nhà tuyển dụng
 - Tạo và quản lý hồ sơ công ty
