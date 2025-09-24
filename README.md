@@ -56,6 +56,23 @@ Website hỗ trợ ba loại tài khoản:
 - Hệ thống đánh giá nhà tuyển dụng và ứng viên
 - Phân tích xu hướng thị trường lao động
 - Tăng cường bảo mật, mã hoá tin nhắn và dữ liệu người dùng
+## 🧪 Một số tài khoản mẫu để đăng nhập
+
+✅ Ứng viên
+
+Email: user01@gmail.com
+
+Mật khẩu: 123
+
+✅ Nhà tuyển dụng
+
+Email: ntd02@gmail.com
+
+Mật khẩu: 123
+
+✅ Quản trị viên
+Email: admin01@gmail.com
+Mật khẩu: 12345678
 
 ## 👨‍🎓 Thông tin sinh viên
 
