@@ -87,6 +87,7 @@ router.post("/apply", verifyToken, verifyRole("ungvien"), upload.single("cv"), a
 
     res.status(201).json({
       message: "Upload CV và nộp đơn thành công",
+      cv_url: cvUrl,
       application: result.rows[0],
     });
   } catch (err) {
