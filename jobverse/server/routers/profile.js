@@ -100,7 +100,7 @@ router.post("/upload-avatar", verifyToken, verifyRole("ungvien","nhatuyendung"),
   if (!req.file) return res.status(400).json({ error: "Không có ảnh được tải lên." });
 
   const userId = req.user.id;
-  const avatarUrl = req.file.filename; // URL để client truy cập
+  const avatarUrl = req.file.path; // URL để client truy cập
 
   try {
     // Lấy avatar_url cũ trong DB

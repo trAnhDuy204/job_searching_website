@@ -173,7 +173,7 @@ router.post("/upload-logo", verifyToken, verifyRole("nhatuyendung"), upload.sing
   if (!req.file) return res.status(400).json({ error: "Không có ảnh được tải lên." });
 
   const userId = req.user.id;
-  const logoUrl = req.file.filename;
+  const logoUrl = req.file.path;
 
   try {
     // Lấy logo_url cũ từ DB

@@ -53,7 +53,7 @@ router.post("/apply", verifyToken, verifyRole("ungvien"), upload.single("cv"), a
       return res.status(400).json({ error: "Thiếu job_title hoặc file CV" });
     }
 
-    const cvUrl = req.file.filename; // Lấy URL từ Cloudinary
+    const cvUrl = req.file.path; // Lấy URL từ Cloudinary
 
     try {
     // Lấy job_post_id
