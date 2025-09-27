@@ -1,10 +1,17 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 const router = express.Router();
 const pool = require("../config/db");
 const {verifyToken , verifyRole} = require("../middleware/authMiddleware");
+// Cloudinary
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Lấy thông tin công ty để tạo hồ sơ
 router.get("/me",verifyToken, async (req, res) => {
@@ -149,37 +156,15 @@ router.put("/me", verifyToken, verifyRole("nhatuyendung","admin"), async (req, r
   }
 });
 
-// Cấu hình lưu file logo
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, "..", "uploads", "logo");
-    fs.mkdirSync(dir, { recursive: true }); // tạo nếu chưa có
-    cb(null, dir);
+// Storage cho logo
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "company_logos",
+    allowed_formats: ["jpg", "jpeg", "png"],
+    public_id: (req, file) => `logo-${req.user.id}-${Date.now()}`,
   },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `logo-${Date.now()}${ext}`);
-  }
 });
-
-// hàm xóa file rác
-function deleteFile(filePath) {
-  // Đường dẫn tuyệt đối tới file default
-  const defaultLogoPath = path.join(__dirname, "..", "uploads", "default", "logo_company_default.jpg");
-
-  // Nếu file cần xóa trùng với file default thì bỏ qua
-  if (path.resolve(filePath) === path.resolve(defaultLogoPath)) {
-    console.log("Bỏ qua không xóa file mặc định:", filePath);
-    return;
-  }
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      console.error("Lỗi khi xóa file:", err);
-    } else {
-      console.log("Đã xóa file:", filePath);
-    }
-  });
-}
 
 const upload = multer({ storage });
 
@@ -188,32 +173,33 @@ router.post("/upload-logo", verifyToken, verifyRole("nhatuyendung"), upload.sing
   if (!req.file) return res.status(400).json({ error: "Không có ảnh được tải lên." });
 
   const userId = req.user.id;
-  const logoUrl = `/uploads/logo/${req.file.filename}`;
+  const logoUrl = req.file.filename;
 
   try {
-    // Lấy logo_url cũ
+    // Lấy logo_url cũ từ DB
     const result = await pool.query("SELECT logo_url FROM company_profiles WHERE user_id = $1", [userId]);
 
     if (result.rows.length > 0) {
       const oldLogoUrl = result.rows[0].logo_url;
-      if (oldLogoUrl) {
-        // Đường dẫn file cũ trên ổ đĩa
-        const oldFilePath = path.join(__dirname, "..", oldLogoUrl);
-        // Kiểm tra file có tồn tại rồi mới xóa
-        if (fs.existsSync(oldFilePath)) {
-          deleteFile(oldFilePath);
+
+      // Nếu logo cũ không phải default thì xóa khỏi Cloudinary
+      if (oldLogoUrl && !oldLogoUrl.includes("logo_company_default.jpg")) {
+        const parts = oldLogoUrl.split("/");
+        const publicId = parts.slice(-2).join("/").split(".")[0]; // lấy folder/filename
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (err) {
+          console.error("Không thể xóa logo cũ trên Cloudinary:", err);
         }
       }
     }
 
-    // Cập nhật logo mới
+    // Cập nhật logo mới vào DB
     await pool.query("UPDATE company_profiles SET logo_url = $1 WHERE user_id = $2", [logoUrl, userId]);
 
-    res.json({ message: "Tải ảnh thành công!", logoUrl: logoUrl });
+    res.json({ message: "Tải logo thành công!", logoUrl });
   } catch (err) {
     console.error("Lỗi khi cập nhật logo:", err);
-    // Xóa file mới upload nếu lỗi xảy ra
-    deleteFile(req.file.path);
     res.status(500).json({ error: "Lỗi máy chủ khi cập nhật logo." });
   }
 });

@@ -51,7 +51,7 @@ const EmployeeHeader = ({ user }) => {
           </li>
           <li className="flex items-center space-x-1 text-white hover:text-teal-600 transition">
             <BsFillBarChartLineFill />
-            //<Link to="/trang-ung-vien">Phân tích mức lương</Link>
+            <Link to="/trang-ung-vien">Phân tích mức lương</Link>
              <a href="https://drive.google.com/file/d/1aOtlv8rOT_VKtgQTetG6POR98y-Xnpkc/view?usp=drive_link">Phân tích mức lương</a>
           </li>
         </ul>

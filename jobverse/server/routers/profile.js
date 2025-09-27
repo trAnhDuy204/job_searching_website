@@ -1,10 +1,8 @@
 const express = require("express");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 const router = express.Router();
 const pool = require("../config/db");
 const {verifyToken, verifyRole} = require("../middleware/authMiddleware");
+const { cloudinary,upload } = require("../config/cloudinary");
 
 // Lấy dữ liệu hồ sơ cá nhân
 router.get("/me", verifyToken, async (req, res) => {
@@ -97,70 +95,38 @@ router.put("/me", verifyToken, async (req, res) => {
   }
 });
 
-// Cấu hình lưu file avatar
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, "..", "uploads", "avatars");
-    fs.mkdirSync(dir, { recursive: true }); // tạo nếu chưa có
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `avatar-${Date.now()}${ext}`);
-  }
-});
-
-//hàm xóa file rác
-function deleteFile(filePath) {
-  // Đường dẫn tuyệt đối tới file default
-  const defaultLogoPath = path.join(__dirname, "..", "uploads", "default", "avatar_default.svg");
-
-  // Nếu file cần xóa trùng với file default thì bỏ qua
-  if (path.resolve(filePath) === path.resolve(defaultLogoPath)) {
-    console.log("Bỏ qua không xóa file mặc định:", filePath);
-    return;
-  }
-
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      console.error("Lỗi khi xóa file:", err);
-    } else {
-      console.log("Đã xóa file:", filePath);
-    }
-  });
-}
-
-const upload = multer({ storage });
-
 // API upload avatar
 router.post("/upload-avatar", verifyToken, verifyRole("ungvien","nhatuyendung"), upload.single("avatar"), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: "Không có ảnh được tải lên." });
 
   const userId = req.user.id;
-  const avatarUrl = `/uploads/avatars/${req.file.filename}`; // URL để client truy cập
+  const avatarUrl = req.file.filename; // URL để client truy cập
 
   try {
-    // Lấy avatar_url cũ
+    // Lấy avatar_url cũ trong DB
     const result = await pool.query("SELECT avatar_url FROM profiles WHERE user_id = $1", [userId]);
 
     if (result.rows.length > 0) {
       const oldAvatarUrl = result.rows[0].avatar_url;
-      if (oldAvatarUrl) {
-        const oldFilePath = path.join(__dirname, "..", oldAvatarUrl);
-        if (fs.existsSync(oldFilePath)) {
-          deleteFile(oldFilePath);
+
+      // Nếu avatar cũ không phải default thì xóa khỏi Cloudinary
+      if (oldAvatarUrl && !oldAvatarUrl.includes("avatar_default.svg")) {
+        // Lấy public_id từ URL Cloudinary
+        const publicId = oldAvatarUrl.split("/").slice(-2).join("/").split(".")[0];
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (err) {
+          console.error("Không thể xóa avatar cũ trên Cloudinary:", err);
         }
       }
     }
 
-    // Cập nhật avatar mới
+    // Cập nhật avatar mới vào DB
     await pool.query("UPDATE profiles SET avatar_url = $1 WHERE user_id = $2", [avatarUrl, userId]);
 
     res.json({ message: "Tải ảnh thành công!", avatar_url: avatarUrl });
   } catch (err) {
     console.error("Lỗi khi cập nhật avatar:", err);
-    // Xóa file mới upload nếu có lỗi
-    deleteFile(req.file.path);
     res.status(500).json({ error: "Lỗi máy chủ khi cập nhật avatar." });
   }
 });
