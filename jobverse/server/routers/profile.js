@@ -4,6 +4,8 @@ const pool = require("../config/db");
 const {verifyToken, verifyRole} = require("../middleware/authMiddleware");
 const { cloudinary,upload } = require("../config/cloudinary");
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 // Lấy dữ liệu hồ sơ cá nhân
 router.get("/me", verifyToken, async (req, res) => {
   const userId = req.user.id;
@@ -19,7 +21,7 @@ router.get("/me", verifyToken, async (req, res) => {
       await pool.query(
         `INSERT INTO profiles
         (user_id, full_name, avatar_url, gender, dob, description, address, phone)
-        VALUES ($1, '', '', 'khác', null, '', '', '')`,
+        VALUES ($1, '', '${API_URL}/uploads/default/avatar_default.svg', 'khác', null, '', '', '')`,
         [userId]
       );
     }

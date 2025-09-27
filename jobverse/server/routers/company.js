@@ -7,6 +7,8 @@ const {verifyToken , verifyRole} = require("../middleware/authMiddleware");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -29,7 +31,7 @@ router.get("/me",verifyToken, async (req, res) => {
       const insertResult = await pool.query(
         `INSERT INTO company_profiles
         (user_id, company_name, logo_url, industry, company_size, website, description, address)
-        VALUES ($1, '', '', '', '', '', '', '') RETURNING *`,
+        VALUES ($1, '', '${API_URL}/uploads/default/logo_company_default.jpg', '', '', '', '', '') RETURNING *`,
         [userId,]
       );
 
