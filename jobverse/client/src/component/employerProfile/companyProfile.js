@@ -3,8 +3,9 @@ import { FiEdit2 } from "react-icons/fi";
 import {axiosRecruiter} from "../../JWT/axiosClient";
 import EditCompanyModal from "./editCompanyModal";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 const CompanyProfileHeader = () => {
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [company, setCompany] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
@@ -55,7 +56,7 @@ const CompanyProfileHeader = () => {
         <div className="relative w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
           {company.logo_url && (
             <img
-              src={`${API_URL}${company.logo_url}`}
+              src={`${company.logo_url}`|| `${API_URL}/uploads/default/logo_company_default.jpg`}
               alt="logo"
               className="w-full h-full object-cover"
             />

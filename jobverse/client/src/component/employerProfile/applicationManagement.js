@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { axiosRecruiter } from "../../JWT/axiosClient";
 
 export default function ApplicationManagement() {
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const user = JSON.parse(localStorage.getItem("user_nhatuyendung"));
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -150,7 +149,7 @@ export default function ApplicationManagement() {
                 <td className="border px-4 py-3 text-left font-medium text-gray-700">
                   {app.cv_url ? (
                     <a
-                      href={`${API_URL}${app.cv_url}`}
+                      href={`${app.cv_url}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"

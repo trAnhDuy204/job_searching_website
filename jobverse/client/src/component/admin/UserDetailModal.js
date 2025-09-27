@@ -51,7 +51,7 @@ export default function UserDetailModal({ userId, onClose, onDeleted }) {
           <div className="mt-4 space-y-3 text-sm text-gray-700">
             <div className="flex items-center gap-4">
               <img
-                src={user.avatar_url ? `${API_URL}${user.avatar_url}` : `${API_URL}/uploads/default/avatar_default.svg`}
+                src={user.avatar_url ? `${user.avatar_url}` : `${API_URL}/uploads/default/avatar_default.svg`}
                 alt="avatar"
                 className="w-20 h-20 object-cover rounded"
               />

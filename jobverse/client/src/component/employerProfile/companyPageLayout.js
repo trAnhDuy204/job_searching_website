@@ -110,7 +110,7 @@ export default function CompanyPageLayout({companyId}) {
           <div className="flex items-start gap-4">
             <div className="w-24 h-24 rounded-2xl bg-gray-100 overflow-hidden ring-4 ring-white -mt-12">
               {company.logo_url ? (
-                <img src={`${API_URL}${company.logo_url}`} alt={company.name} className="w-full h-full object-cover" />
+                <img src={`${company.logo_url}`} alt={company.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400 text-xl">
                   {company.name?.charAt(0) || "C"}

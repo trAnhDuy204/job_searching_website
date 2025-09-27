@@ -34,7 +34,7 @@ const JobDetailModal = ({ job, onClose }) => {
             <img
               src={
                 job.logo
-                  ? `${API_URL}${job.logo}`
+                  ? `${job.logo}`
                   : `${API_URL}/uploads/default/logo_company_default.jpg`
               }
               alt="Company Logo"

@@ -19,7 +19,7 @@ router.get("/me", verifyToken, async (req, res) => {
       await pool.query(
         `INSERT INTO profiles
         (user_id, full_name, avatar_url, gender, dob, description, address, phone)
-        VALUES ($1, '', '/uploads/default/avatar_default.svg', 'khác', null, '', '', '')`,
+        VALUES ($1, '', '', 'khác', null, '', '', '')`,
         [userId]
       );
     }

@@ -29,7 +29,7 @@ router.get("/me",verifyToken, async (req, res) => {
       const insertResult = await pool.query(
         `INSERT INTO company_profiles
         (user_id, company_name, logo_url, industry, company_size, website, description, address)
-        VALUES ($1, '', '/uploads/default/logo_company_default.jpg', '', '', '', '', '') RETURNING *`,
+        VALUES ($1, '', '', '', '', '', '', '') RETURNING *`,
         [userId,]
       );
 

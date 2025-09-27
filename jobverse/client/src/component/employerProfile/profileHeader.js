@@ -4,8 +4,9 @@ import { FiEdit2 } from "react-icons/fi";
 import {axiosRecruiter} from "../../JWT/axiosClient";
 import EditProfileModal from "./editProfileModal";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 const ProfileHeader = () => {
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const [profile, setProfile] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState({
@@ -84,7 +85,7 @@ const ProfileHeader = () => {
         <div className="relative w-16 h-16 rounded-full bg-gray-200 cursor-pointer" onClick={() => fileInputRef.current.click()}>
           <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={handleUploadAvatar}/>
           {profile.avatar_url && (
-            <img src={`${API_URL}${profile.avatar_url}`} alt="avatar" className="w-full h-full rounded-full object-cover"/>
+            <img src={`${profile.avatar_url}` || `${API_URL}/uploads/default/avatar_default.svg`} alt="avatar" className="w-full h-full rounded-full object-cover"/>
           )}
           <span className="absolute bottom-0 right-0 bg-white border rounded-full p-1 text-xs shadow">📷</span>
         </div>
