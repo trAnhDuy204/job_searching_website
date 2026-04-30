@@ -88,7 +88,7 @@ const PostJobForm = () => {
     if (!validateForm()) return;
 
     try {
-      await axiosRecruiter.post("/jobPosts", form);
+      await axiosRecruiter.post("/api/jobPosts", form);
       alert("Đăng tin thành công!");
       setForm({
         ...form,
