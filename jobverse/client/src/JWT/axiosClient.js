@@ -16,7 +16,6 @@ const tokenMap = {
 axiosClient.interceptors.request.use((config) => {
   const role = localStorage.getItem("role"); 
   const tokenKey = tokenMap[role];
-  console.log("Role:", role, "Token Key:", tokenKey);
 
   if (tokenKey) {
     const token = localStorage.getItem(tokenKey);
