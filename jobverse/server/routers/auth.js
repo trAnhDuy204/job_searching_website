@@ -12,7 +12,7 @@ function isValidEmail(email) {
 function isValidPassword(pw) {
   return typeof pw === "string" && pw.length >= 8; // tối thiểu 8 ký tự (bạn có thể thay rule)
 }
-
+ 
 // Đăng ký
 router.post('/register', async (req, res) => {
   const { username, email, password, role } = req.body;
