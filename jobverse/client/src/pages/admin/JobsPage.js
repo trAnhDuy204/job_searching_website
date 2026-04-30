@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {axiosAdmin} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 import JobDetailModalAdmin from "../../component/admin/JobDetailModalAdmin";
 
 export default function JobsPage() {
@@ -7,7 +7,7 @@ export default function JobsPage() {
   const [selectedJob, setSelectedJob] = useState(null);
 
   const fetchJobs = async () => {
-    const res = await axiosAdmin.get("/api/admin/job-posts");
+    const res = await axiosClient.get("/api/admin/job-posts");
     setJobs(res.data);
   };
 
@@ -15,13 +15,13 @@ export default function JobsPage() {
     fetchJobs();
   }, []);
   const updateStatus = async () => {
-    await axiosAdmin.put(`/api/admin/job-posts/status`);
+    await axiosClient.put(`/api/admin/job-posts/status`);
     fetchJobs();
   };
 
   const deleteJob = async (id) => {
     if (window.confirm("Xóa tin tuyển dụng này?")) {
-      await axiosAdmin.delete(`/api/admin/job-posts/${id}`);
+      await axiosClient.delete(`/api/admin/job-posts/${id}`);
       fetchJobs();
     }
   };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {axiosRecruiter} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 
 export default function AccountManagement() {
   const [tab, setTab] = useState("email");
@@ -21,7 +21,7 @@ export default function AccountManagement() {
   const handleUpdateEmail = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosRecruiter.put( "/api/account/update-email",
+      const res = await axiosClient.put( "/api/account/update-email",
         { email, currentPassword: currentPasswordForEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -36,7 +36,7 @@ export default function AccountManagement() {
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosRecruiter.put( "/api/account/update-password",
+      const res = await axiosClient.put( "/api/account/update-password",
         { currentPassword: currentPasswordForPass, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );

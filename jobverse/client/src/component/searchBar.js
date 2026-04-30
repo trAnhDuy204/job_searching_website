@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {axiosCandidate} from "../JWT/axiosClient";
+import {axiosClient} from "../JWT/axiosClient";
 
 export default function SearchBar() {
   const navigate = useNavigate();
@@ -21,9 +21,9 @@ export default function SearchBar() {
     const fetchData = async () => {
       try {
         const [catRes, locRes, typeRes] = await Promise.all([
-          axiosCandidate.get("/api/categories"),
-          axiosCandidate.get("/api/locations"),
-          axiosCandidate.get("/api/job-types"),
+          axiosClient.get("/api/categories"),
+          axiosClient.get("/api/locations"),
+          axiosClient.get("/api/job-types"),
         ]);
 
         setCategories(catRes.data);

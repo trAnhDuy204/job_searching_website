@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { axiosRecruiter } from "../../JWT/axiosClient";
+import { axiosClient } from "../../JWT/axiosClient";
 import EditJobModal from "./editJobModal";
 
 const JobManagement = () => {
@@ -10,7 +10,7 @@ const JobManagement = () => {
   const fetchJobs = useCallback(async () => {
     try {
       const token = localStorage.getItem("token_nhatuyendung");
-      const res = await axiosRecruiter.get("/api/employer/jobs", {
+      const res = await axiosClient.get("/api/employer/jobs", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs(res.data || []);
@@ -29,7 +29,7 @@ const JobManagement = () => {
     if (!window.confirm("Bạn có chắc muốn xóa tin này?")) return;
     try {
       const token = localStorage.getItem("token_nhatuyendung");
-      await axiosRecruiter.delete(`/api/employer/jobs/${id}`, {
+      await axiosClient.delete(`/api/employer/jobs/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs((prev) => prev.filter((job) => job.id !== id));

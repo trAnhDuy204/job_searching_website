@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {axiosAdmin} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 
 export default function UserDetailModal({ userId, onClose, onDeleted }) {
   const [user, setUser] = useState(null);
@@ -13,7 +13,7 @@ export default function UserDetailModal({ userId, onClose, onDeleted }) {
 
   const fetchUser = async () => {
     try {
-      const res = await axiosAdmin.get(`/api/admin/users/${userId}`, {
+      const res = await axiosClient.get(`/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data);
@@ -26,7 +26,7 @@ export default function UserDetailModal({ userId, onClose, onDeleted }) {
   const handleDelete = async () => {
     if (!window.confirm("Bạn chắc chắn muốn xóa user này?")) return;
     try {
-      await axiosAdmin.delete(`/api/admin/users/${userId}`, {
+      await axiosClient.delete(`/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onDeleted?.();

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { axiosRecruiter} from "../../JWT/axiosClient";
+import { axiosClient } from "../../JWT/axiosClient";
 const removeVietnameseTones = (str) =>
   str
     .normalize("NFD")
@@ -32,7 +32,7 @@ export default function CompanyPageLayout({companyId}) {
       setLoadingCompany(true);
       setError(null);
       try {
-        const res = await axiosRecruiter.get(`/api/company/${companyId}`);
+        const res = await axiosClient.get(`/api/company/${companyId}`);
         if (mounted) setCompany(res.data);
 
       } catch (err) {
@@ -47,7 +47,7 @@ export default function CompanyPageLayout({companyId}) {
     const fetchJobs = async () => {
       setLoadingJobs(true);
       try {
-        const res = await axiosRecruiter.get(`/api/jobPosts/${companyId}/jobs`);
+        const res = await axiosClient.get(`/api/jobPosts/${companyId}/jobs`);
         if (mounted) setJobs(res.data || []);
 
       } catch (err) {

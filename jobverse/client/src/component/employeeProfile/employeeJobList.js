@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobCard from "../jobCard";
 import JobDetailModal from "../jobDetailModal";
-import { axiosCandidate } from "../../JWT/axiosClient";
+import { axiosClient } from "../../JWT/axiosClient";
 
 const EmployeeJobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -13,7 +13,7 @@ const EmployeeJobList = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axiosCandidate.get(`/api/jobPosts/candidate?page=${page}&limit=12`);
+        const res = await axiosClient.get(`/api/jobPosts/candidate?page=${page}&limit=12`);
         setJobs(res.data.jobs);
         setTotalPages(res.data.totalPages);
       } catch (err) {
@@ -40,7 +40,7 @@ const EmployeeJobList = () => {
       return;
     }
     try {
-      const res = await axiosCandidate.post(`/api/saved-jobs/toggle`, { job_post_id: jobId });
+      const res = await axiosClient.post(`/api/saved-jobs/toggle`, { job_post_id: jobId });
       setJobs((prev) =>
         prev.map((job) =>
           job.id === jobId ? { ...job, is_saved: res.data.saved } : job

@@ -1,6 +1,6 @@
 // src/components/admin/JobDetailModalAdmin.jsx
 import React, { useEffect, useState } from "react";
-import {axiosAdmin} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 
 export default function JobDetailModalAdmin({ jobId, onClose, onDeleted}) {
   const [job, setJob] = useState(null);
@@ -13,7 +13,7 @@ export default function JobDetailModalAdmin({ jobId, onClose, onDeleted}) {
 
   const fetchJob = async () => {
     try {
-      const res = await axiosAdmin.get(`/api/admin/job-posts/${jobId}`, {
+      const res = await axiosClient.get(`/api/admin/job-posts/${jobId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJob(res.data);
@@ -25,7 +25,7 @@ export default function JobDetailModalAdmin({ jobId, onClose, onDeleted}) {
   const handleDelete = async () => {
     if (!window.confirm("Xóa tin tuyển dụng này?")) return;
     try {
-      await axiosAdmin.delete(`/api/admin/job-posts/${jobId}`, {
+      await axiosClient.delete(`/api/admin/job-posts/${jobId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onDeleted?.();

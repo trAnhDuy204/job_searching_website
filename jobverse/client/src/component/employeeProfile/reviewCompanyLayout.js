@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { axiosCandidate} from "../../JWT/axiosClient";
+import { axiosClient} from "../../JWT/axiosClient";
 import JobDetailModal from "../jobDetailModal";
 const removeVietnameseTones = (str) =>
   str
@@ -35,7 +35,7 @@ export default function ReviewCompanyLayout({companyId}) {
       setLoadingCompany(true);
       setError(null);
       try {
-        const res = await axiosCandidate.get(`/api/company/${companyId}`);
+        const res = await axiosClient.get(`/api/company/${companyId}`);
         if (mounted) setCompany(res.data);
 
       } catch (err) {
@@ -50,7 +50,7 @@ export default function ReviewCompanyLayout({companyId}) {
     const fetchJobs = async () => {
       setLoadingJobs(true);
       try {
-        const res = await axiosCandidate.get(`/api/jobPosts/${companyId}/jobs`);
+        const res = await axiosClient.get(`/api/jobPosts/${companyId}/jobs`);
         if (mounted) setJobs(res.data || []);
 
       } catch (err) {
@@ -83,7 +83,7 @@ export default function ReviewCompanyLayout({companyId}) {
 
   const handleToggleSave = async (jobId) => {
     try {
-        const res = await axiosCandidate.post(`/api/saved-jobs/toggle`, { job_post_id: jobId });
+        const res = await axiosClient.post(`/api/saved-jobs/toggle`, { job_post_id: jobId });
         setJobs((prev) =>
           prev.map((job) =>
             job.id === jobId ? { ...job, is_saved: res.data.saved } : job

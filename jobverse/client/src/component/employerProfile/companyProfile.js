@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FiEdit2 } from "react-icons/fi";
-import {axiosRecruiter} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 import EditCompanyModal from "./editCompanyModal";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -22,7 +22,7 @@ const CompanyProfileHeader = () => {
   useEffect(() => {
     const fetchCompanyProfile = async () => {
       try {
-        const res = await axiosRecruiter.get("/api/company/me");
+        const res = await axiosClient.get("/api/company/me");
         setCompany(res.data);
         setForm(res.data);
       } catch (err) {
@@ -39,7 +39,7 @@ const CompanyProfileHeader = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosRecruiter.put("/api/company/me", form);
+      await axiosClient.put("/api/company/me", form);
       setCompany(form);
       setIsOpen(false);
     } catch (err) {

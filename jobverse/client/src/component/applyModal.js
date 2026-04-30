@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { axiosCandidate } from "../JWT/axiosClient";
+import { axiosClient } from "../JWT/axiosClient";
 
 export default function ApplyModal({ job, onClose}) {
   const user = JSON.parse(localStorage.getItem("user_ungvien"));
@@ -39,7 +39,7 @@ export default function ApplyModal({ job, onClose}) {
       formDataUpload.append("cv", formData.cv);
       formDataUpload.append("job_title", job.title);
 
-      const resApply = await axiosCandidate.post(
+      const resApply = await axiosClient.post(
         "/api/applications/apply",
         formDataUpload,
         {
@@ -52,7 +52,7 @@ export default function ApplyModal({ job, onClose}) {
       applicationId = resApply.data.application_id; // backend trả về id ứng tuyển
 
       // Nếu apply thành công thì gửi message
-      const resMessage = await axiosCandidate.post(
+      const resMessage = await axiosClient.post(
         "/api/messages/",
         {
           sender_id: user.id,
@@ -71,7 +71,7 @@ export default function ApplyModal({ job, onClose}) {
       const messageId = resMessage.data?.id;
 
       // Sau khi gửi message thì tạo notification cho nhà tuyển dụng
-      await axiosCandidate.post(
+      await axiosClient.post(
         "/api/notifications",
         {
           user_id: job.post_id,
@@ -95,7 +95,7 @@ export default function ApplyModal({ job, onClose}) {
       // Nếu message lỗi thì xoá application vừa tạo để rollback
       if (applicationId) {
         try {
-          await axiosCandidate.delete(`/api/applications/${applicationId}`, {
+          await axiosClient.delete(`/api/applications/${applicationId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token_ungvien")}`,
             },

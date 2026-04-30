@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {axiosAdmin} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 import CompanyDetailModal from "../../component/admin/CompanyDetailModal";
 
 export default function CompaniesPage() {
@@ -7,7 +7,7 @@ export default function CompaniesPage() {
   const [selectedCompany, setSelectedCompany] = useState(null);
 
   const fetchCompanies = async () => {
-    const res = await axiosAdmin.get("/api/admin/companies");
+    const res = await axiosClient.get("/api/admin/companies");
     setCompanies(res.data);
   };
 
@@ -17,7 +17,7 @@ export default function CompaniesPage() {
 
   const deleteCompany = async (id) => {
     if (window.confirm("Xóa công ty này?")) {
-      await axiosAdmin.delete(`/api/admin/companies/${id}`);
+      await axiosClient.delete(`/api/admin/companies/${id}`);
       fetchCompanies();
     }
   };

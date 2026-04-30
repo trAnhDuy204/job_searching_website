@@ -2,26 +2,28 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
-// Axios cho nhà tuyển dụng
-export const axiosRecruiter = axios.create({ baseURL: API_URL });
-axiosRecruiter.interceptors.request.use(config => {
-  const token = localStorage.getItem("token_nhatuyendung");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
+export const axiosClient = axios.create({
+  baseURL: API_URL,
 });
 
-// Axios cho ứng viên
-export const axiosCandidate = axios.create({ baseURL: API_URL });
-axiosCandidate.interceptors.request.use(config => {
-  const token = localStorage.getItem("token_ungvien");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+// map role
+const tokenMap = {
+  nhatuyendung: "token_nhatuyendung",
+  ungvien: "token_ungvien",
+  admin: "token_admin",
+};
 
-// Axios cho admin
-export const axiosAdmin = axios.create({ baseURL: API_URL });
-axiosAdmin.interceptors.request.use(config => {
-  const token = localStorage.getItem("token_admin");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+axiosClient.interceptors.request.use((config) => {
+  const role = localStorage.getItem("role"); 
+  const tokenKey = tokenMap[role];
+  console.log("Role:", role, "Token Key:", tokenKey);
+
+  if (tokenKey) {
+    const token = localStorage.getItem(tokenKey);
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
   return config;
 });

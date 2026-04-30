@@ -31,6 +31,8 @@ const LoginPage = () => {
       }
 
       // Lưu token và user vào localStorage theo role
+      localStorage.setItem("role", user.role);
+
       const roleKey = `token_${user.role}`;
       localStorage.setItem(roleKey, token);
 

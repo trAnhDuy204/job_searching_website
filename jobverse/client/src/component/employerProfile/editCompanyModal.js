@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
-import {axiosRecruiter} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 
 const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
   const fileInputRef = useRef(null);
@@ -14,7 +14,7 @@ const EditCompanyModal = ({ isOpen, onClose, form, onChange, onSubmit }) => {
 
     try {
         const token = localStorage.getItem("token_nhatuyendung");
-        const res = await axiosRecruiter.post("/api/company/upload-logo", formData, {
+        const res = await axiosClient.post("/api/company/upload-logo", formData, {
         headers: { "Content-Type": "multipart/form-data", 
                     Authorization: `Bearer ${token}` }
         });

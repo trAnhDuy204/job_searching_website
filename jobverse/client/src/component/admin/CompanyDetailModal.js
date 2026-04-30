@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {axiosAdmin} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 
 export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
   const [company, setCompany] = useState(null);
@@ -12,7 +12,7 @@ export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
 
   const fetchCompany = async () => {
     try {
-      const res = await axiosAdmin.get(`/api/admin/companies/${companyId}`, {
+      const res = await axiosClient.get(`/api/admin/companies/${companyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCompany(res.data);
@@ -24,7 +24,7 @@ export default function CompanyDetailModal({ companyId, onClose, onDeleted }) {
   const handleDelete = async () => {
     if (!window.confirm("Xóa công ty sẽ xóa luôn tin tuyển dụng và hồ sơ liên quan. Chắc chắn?")) return;
     try {
-      await axiosAdmin.delete(`/api/admin/companies/${companyId}`, {
+      await axiosClient.delete(`/api/admin/companies/${companyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onDeleted?.();

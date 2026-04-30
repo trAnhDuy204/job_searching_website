@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { axiosRecruiter } from "../../JWT/axiosClient";
+import { axiosClient } from "../../JWT/axiosClient";
 
 export default function ApplicationManagement() {
   const user = JSON.parse(localStorage.getItem("user_nhatuyendung"));
@@ -18,7 +18,7 @@ export default function ApplicationManagement() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axiosRecruiter.get("/api/manage-applications", {
+      const res = await axiosClient.get("/api/manage-applications", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token_nhatuyendung")}`,
         },
@@ -49,7 +49,7 @@ export default function ApplicationManagement() {
 
     try {
       // Gửi tin nhắn
-      const resMessage = await axiosRecruiter.post(
+      const resMessage = await axiosClient.post(
         `/api/messages/`,
         {
           sender_id: user.id,
@@ -74,7 +74,7 @@ export default function ApplicationManagement() {
       const messageId = resMessage.data?.id;
 
       // Tạo thông báo
-      await axiosRecruiter.post(
+      await axiosClient.post(
         `/api/notifications/`,
         {
           user_id: selectedApp.candidate_id,
@@ -93,7 +93,7 @@ export default function ApplicationManagement() {
       );
 
       // Đổi trạng thái đơn
-      await axiosRecruiter.put(
+      await axiosClient.put(
         `/api/manage-applications/${selectedApp.application_id}/status`,
         { status: newStatus },
         {

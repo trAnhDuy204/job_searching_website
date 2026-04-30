@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {axiosCandidate} from "../JWT/axiosClient";
+import {axiosClient} from "../JWT/axiosClient";
 
 const CompanyList = () => {
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -9,7 +9,7 @@ const CompanyList = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const res = await axiosCandidate.get("/api/company/list"); 
+        const res = await axiosClient.get("/api/company/list"); 
         setCompanies(res.data);
       } catch (err) {
         console.error("Lỗi khi lấy danh sách công ty:", err);

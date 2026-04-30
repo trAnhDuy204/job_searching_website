@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {axiosAdmin} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 import UserDetailModal from "../../component/admin/UserDetailModal";
 
 export default function UsersPage() {
@@ -7,7 +7,7 @@ export default function UsersPage() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async () => {
-    const res = await axiosAdmin.get("/api/admin/users");
+    const res = await axiosClient.get("/api/admin/users");
     setUsers(res.data);
   };
 
@@ -17,7 +17,7 @@ export default function UsersPage() {
 
   const deleteUser = async (id) => {
     if (window.confirm("Xóa user này?")) {
-      await axiosAdmin.delete(`/api/admin/users/${id}`);
+      await axiosClient.delete(`/api/admin/users/${id}`);
       fetchUsers();
     }
   };

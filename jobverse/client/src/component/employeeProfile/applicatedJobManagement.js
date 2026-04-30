@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { axiosCandidate } from "../../JWT/axiosClient";
+import { axiosClient } from "../../JWT/axiosClient";
 
 const AppliedJobsManagement = () => {
   const [applications, setApplications] = useState([]);
@@ -9,7 +9,7 @@ const AppliedJobsManagement = () => {
     const fetchApplications = async () => {
 
       try {
-        const res = await axiosCandidate.get(`/api/applications/candidate`, {
+        const res = await axiosClient.get(`/api/applications/candidate`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token_ungvien")}`,
         },

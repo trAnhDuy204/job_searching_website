@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {axiosRecruiter} from "../JWT/axiosClient";
+import {axiosClient} from "../JWT/axiosClient";
 
 const removeVietnameseTones = (str) =>
   str
@@ -51,9 +51,9 @@ const PostJobForm = () => {
     const fetchOptions = async () => {
       try {
         const [catRes, locRes, typeRes] = await Promise.all([
-          axiosRecruiter.get("/api/categories"),
-          axiosRecruiter.get("/api/locations"),
-          axiosRecruiter.get("/api/job-types"),
+          axiosClient.get("/api/categories"),
+          axiosClient.get("/api/locations"),
+          axiosClient.get("/api/job-types"),
         ]);
         setCategories(catRes.data);
         setLocations(locRes.data);
@@ -88,7 +88,7 @@ const PostJobForm = () => {
     if (!validateForm()) return;
 
     try {
-      await axiosRecruiter.post("/api/jobPosts", form);
+      await axiosClient.post("/api/jobPosts", form);
       alert("Đăng tin thành công!");
       setForm({
         ...form,

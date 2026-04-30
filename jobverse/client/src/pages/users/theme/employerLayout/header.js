@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useEffect, useState } from "react";
-import {axiosRecruiter} from "../../../../JWT/axiosClient";
+import {axiosClient} from "../../../../JWT/axiosClient";
 import "./style.scss";
 import { BiSolidHome } from "react-icons/bi";
 import { BsVectorPen, BsFillBarChartLineFill, BsFillDoorOpenFill, BsFillPersonLinesFill } from "react-icons/bs";
@@ -36,7 +36,7 @@ const EmployeeHeader = ({user}) => {
   useEffect(() => {
     const fetchCompanyProfile = async () => {
       try {
-          const res = await axiosRecruiter.get("/api/company/me");
+          const res = await axiosClient.get("/api/company/me");
           setCompany(res.data);
         } catch (err) {
           console.error("Lỗi khi lấy hồ sơ công ty:", err);

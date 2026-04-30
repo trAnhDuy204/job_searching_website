@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import { useState, useEffect } from "react";
-import { axiosRecruiter } from "../../JWT/axiosClient";
+import { axiosClient } from "../../JWT/axiosClient";
 
 export default function EditJobModal({ isOpen, jobData, onClose, onUpdated }) {
   const [formData, setFormData] = useState({
@@ -32,13 +32,13 @@ export default function EditJobModal({ isOpen, jobData, onClose, onUpdated }) {
       const token = localStorage.getItem("token_nhatuyendung");
 
       const [catsRes, locsRes, typesRes] = await Promise.all([
-        axiosRecruiter.get("/api/categories", {
+        axiosClient.get("/api/categories", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axiosRecruiter.get("/api/locations", {
+        axiosClient.get("/api/locations", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axiosRecruiter.get("/api/job-types", {
+        axiosClient.get("/api/job-types", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -82,7 +82,7 @@ export default function EditJobModal({ isOpen, jobData, onClose, onUpdated }) {
     }
     try {
       const token = localStorage.getItem("token_nhatuyendung");
-      await axiosRecruiter.put(`/api/employer/jobs/${jobData.id}`, formData, {
+      await axiosClient.put(`/api/employer/jobs/${jobData.id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onUpdated();

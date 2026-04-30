@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { FaEnvelope, FaPhone, FaUser, FaBirthdayCake } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
-import {axiosRecruiter} from "../../JWT/axiosClient";
+import {axiosClient} from "../../JWT/axiosClient";
 import EditProfileModal from "./editProfileModal";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -22,7 +22,7 @@ const ProfileHeader = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axiosRecruiter.get("/api/profile/me");
+        const res = await axiosClient.get("/api/profile/me");
         setProfile(res.data);
         setForm(res.data);
       } catch (err) {
@@ -39,7 +39,7 @@ const ProfileHeader = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosRecruiter.put("/api/profile/me", form);
+      await axiosClient.put("/api/profile/me", form);
       setProfile(form);
       setIsOpen(false);
     } catch (err) {
@@ -57,7 +57,7 @@ const ProfileHeader = () => {
     formData.append("avatar", file);
 
     try {
-      const res = await axiosRecruiter.post("/api/profile/upload-avatar", formData, {
+      const res = await axiosClient.post("/api/profile/upload-avatar", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       setProfile((prev) => ({ ...prev, avatar_url: res.data.avatar_url }));
