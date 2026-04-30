@@ -1,55 +1,53 @@
-# ⚙️ Cài đặt và chạy trên máy local
+# Cài đặt và chạy trên máy local
 
-## 🚀 1. Cài đặt Backend (Server)
+## 1. Cài đặt Backend (Server)
 
-### 📁 Di chuyển vào thư mục `server`
+### Di chuyển vào thư mục `server`
 
 ```bash
-cd "server path"
+cd "server"
 ```
 ### 🧩 Cài đặt package
 
 ```bash
 yarn install
-# hoặc nếu dùng npm
+# hoặc
 npm install
 ```
-### ⚙️ Cài đặt cấu hình yêu cầu
+### Cài đặt cấu hình yêu cầu
 
 ```bash
-# Đọc từng dòng trong file và cài bằng yarn
-yarn add client_requirements.txt
+yarn add server_requirements.txt
 ```
 
-### 🛠️ Cấu hình .env
+### Cấu hình .env
 
 ```env
 PORT=5000
 DATABASE_URL=postgresql://postgres:abc123@localhost:5432/db_web_tim_kiem_viec_lam
 JWT_SECRET=your_jwt_secret_key
 ```
-### ▶️ Khởi chạy server
+### Khởi chạy server
 
 ```bash
 node server.js
 ```
 Mặc định chạy tại: http://localhost:5000
 
-## 💻 2. Cài đặt Frontend (Client)
+## 2. Cài đặt Frontend (Client)
 
-### 📁 Di chuyển vào thư mục client
-
-```bash
-cd "client path"
-```
-### ⚙️ Cài đặt cấu hình yêu cầu
+### Di chuyển vào thư mục client
 
 ```bash
-# Đọc từng dòng trong file và cài bằng yarn
-yarn add server_requirements.txt
+cd "client"
+```
+###  Cài đặt cấu hình yêu cầu
+
+```bash
+yarn add client_requirements.txt
 ```
 
-### ▶️ Khởi chạy client
+### Khởi chạy client
 
 ```bash
 yarn start
@@ -58,24 +56,24 @@ npm start
 ```
 Giao diện chạy tại: http://localhost:3000
 
-## 📊 3. Kiểm thử hiệu năng
+## 3. Kiểm thử hiệu năng
 
 Dự án đi kèm file TestPerformance.jmx để bạn kiểm thử hiệu năng bằng Apache JMeter.
 
-## 🧪 4. Một số tài khoản mẫu để đăng nhập
+## 4. Một số tài khoản mẫu để đăng nhập
 
-✅ Ứng viên
+### Ứng viên
 
 Email: user01@gmail.com
 
 Mật khẩu: 123
 
-✅ Nhà tuyển dụng
+### Nhà tuyển dụng
 
 Email: ntd02@gmail.com
 
 Mật khẩu: 123
 
-✅ Quản trị viên
+### Quản trị viên
 Email: admin01@gmail.com
 Mật khẩu: 12345678
