@@ -13,6 +13,8 @@ export default function ApplicationManagement() {
   const [selectedApp, setSelectedApp] = useState(null);
   const [newStatus, setNewStatus] = useState(null);
   const [messageContent, setMessageContent] = useState("");
+  const [showCV, setShowCV] = useState(false);
+  const [currentCV, setCurrentCV] = useState(null);
 
   const fetchApplications = async () => {
     setLoading(true);
@@ -69,7 +71,7 @@ export default function ApplicationManagement() {
           },
         }
       );
-      
+
       //lấy id tin nhắn để tạo thông báo
       const messageId = resMessage.data?.id;
 
@@ -148,27 +150,27 @@ export default function ApplicationManagement() {
                 </td>
                 <td className="border px-4 py-3 text-left font-medium text-gray-700">
                   {app.cv_url ? (
-                    <a
-                      href={`${app.cv_url}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => {
+                        setCurrentCV(app.cv_url);
+                        setShowCV(true);
+                      }}
                       className="text-blue-500 hover:underline"
                     >
                       Xem
-                    </a>
+                    </button>
                   ) : (
                     "Không có"
                   )}
                 </td>
                 <td className="border px-4 py-3">
                   <span
-                    className={`px-3 py-1.5 rounded-full text-sm font-medium border whitespace-nowrap ${
-                      app.status === "đã duyệt"
-                        ? "bg-green-100 text-green-700 border-green-300"
-                        : app.status === "từ chối"
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium border whitespace-nowrap ${app.status === "đã duyệt"
+                      ? "bg-green-100 text-green-700 border-green-300"
+                      : app.status === "từ chối"
                         ? "bg-red-100 text-red-700 border-red-300"
                         : "bg-gray-100 text-gray-700 border-gray-300"
-                    }`}
+                      }`}
                   >
                     {app.status}
                   </span>
@@ -204,6 +206,28 @@ export default function ApplicationManagement() {
           )}
         </tbody>
       </table>
+
+      {showCV && currentCV && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white w-[90%] h-[90%] rounded-xl shadow-lg relative">
+
+            {/* Nút đóng */}
+            <button
+              onClick={() => setShowCV(false)}
+              className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded"
+            >
+              Đóng
+            </button>
+
+            {/* Viewer PDF */}
+            <iframe
+              src={`https://docs.google.com/gview?url=${currentCV}&embedded=true`}
+              className="w-full h-full rounded-xl"
+              title="CV Preview"
+            ></iframe>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && selectedApp && (
