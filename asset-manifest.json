@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/job_searching_website/static/css/main.62029f0c.css",
-    "main.js": "/job_searching_website/static/js/main.2bb78e3b.js",
+    "main.css": "/job_searching_website/static/css/main.10d83a55.css",
+    "main.js": "/job_searching_website/static/js/main.7e3337db.js",
     "static/js/977.fb897b07.chunk.js": "/job_searching_website/static/js/977.fb897b07.chunk.js",
     "static/js/622.9af6e49f.chunk.js": "/job_searching_website/static/js/622.9af6e49f.chunk.js",
     "index.html": "/job_searching_website/index.html",
-    "main.62029f0c.css.map": "/job_searching_website/static/css/main.62029f0c.css.map",
-    "main.2bb78e3b.js.map": "/job_searching_website/static/js/main.2bb78e3b.js.map",
+    "main.10d83a55.css.map": "/job_searching_website/static/css/main.10d83a55.css.map",
+    "main.7e3337db.js.map": "/job_searching_website/static/js/main.7e3337db.js.map",
     "977.fb897b07.chunk.js.map": "/job_searching_website/static/js/977.fb897b07.chunk.js.map",
     "622.9af6e49f.chunk.js.map": "/job_searching_website/static/js/622.9af6e49f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.62029f0c.css",
-    "static/js/main.2bb78e3b.js"
+    "static/css/main.10d83a55.css",
+    "static/js/main.7e3337db.js"
   ]
 }
